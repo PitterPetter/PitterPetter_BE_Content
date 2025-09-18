@@ -1,4 +1,4 @@
-# 📄 Content Service (Loveventure)
+# 💌 Loventure - Content Service
 
 블로그 게시물 및 마이페이지(개인/커플 프로필 관리) 기능을 제공하는 서비스.  
 추천 코스에 대한 커플의 후기(블로그)를 저장하고, 마이페이지에서 개인/커플 정보를 관리할 수 있음.
