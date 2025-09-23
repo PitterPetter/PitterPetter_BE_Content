@@ -1,4 +1,4 @@
-package PitterPatter.loventure.content.global.domain;
+package PitterPatter.loventure.content.global.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -1,6 +1,9 @@
--- 초기 스키마 (예시: diary)
+-- 초기 스키마 (diary)
 CREATE TABLE IF NOT EXISTS diary (
-    id BIGSERIAL PRIMARY KEY,
+    diary_id BIGSERIAL PRIMARY KEY,
+    couple_id BIGINT NOT NULL,
+    course_id BIGINT NULL,
+    rating DOUBLE PRECISION NULL,
     title VARCHAR(200) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
