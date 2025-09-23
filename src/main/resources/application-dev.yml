@@ -3,25 +3,40 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:postgresql://your-dev-db-host:5432/your-dev-db
-    username: dev_user
-    password: dev_password
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/content_db}
+    username: ${DB_USERNAME:content}
+    password: ${DB_PASSWORD:content_pw}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: your-dev-google-client-id
-            client-secret: your-dev-google-client-secret
+            client-id: ${GOOGLE_CLIENT_ID:your-dev-google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:your-dev-google-client-secret}
             scope:
               - profile
               - email
           kakao:
-            client-id: your-dev-kakao-client-id
-            client-secret: your-dev-kakao-client-secret
-            redirect-uri: https://your-dev-server/login/oauth2/code/kakao
+            client-id: ${KAKAO_CLIENT_ID:your-dev-kakao-client-id}
+            client-secret: ${KAKAO_CLIENT_SECRET:your-dev-kakao-client-secret}
+            redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:8080/login/oauth2/code/kakao}
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
               - account_email
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
