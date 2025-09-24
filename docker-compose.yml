@@ -1,14 +1,14 @@
 version: '3.8'
 services:
   postgres:
-    image: postgres:16
+    image: postgres:15
     container_name: pp-content-postgres
     environment:
-      POSTGRES_USER: ${DB_USERNAME:-nyongwan}
+      POSTGRES_USER: ${DB_USERNAME:-content}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-1q2w3e4R!}
-      POSTGRES_DB: ${DB_NAME:-postgres}
+      POSTGRES_DB: ${DB_NAME:-content_db}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5433}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

@@ -3,5 +3,5 @@ spring:
     default: dev
   config:
     import:
-      - optional:classpath:.env.properties
+      - optional:file:.env
 

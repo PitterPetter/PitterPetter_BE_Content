@@ -18,13 +18,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Diary extends BaseTimeEntity {
+public class Content extends BaseTimeEntity {
 
     // pk: diary_id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "diary_id")
-    private Long diaryId;
+    @Column(name = "content_id")
+    private Long contentId;
 
     // msa 환경: 다른 서비스의 fk는 물리적 제약 없이 보관
     // 필수: couple_id
