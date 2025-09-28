@@ -78,4 +78,9 @@ public class ContentService {
                 .likeCount(0) // TODO: 좋아요 기능 구현 시 실제 값으로 변경
                 .build();
     }
+
+    public DiaryResponse loadDiary(Long coupleId, Long diaryId) {
+        Content diary = contentRepository.findById(diaryId).orElse(null);
+        return DiaryResponse.create(diary); // TODO: exception 설정하기
+    }
 }
