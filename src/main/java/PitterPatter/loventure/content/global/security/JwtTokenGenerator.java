@@ -3,6 +3,8 @@ package PitterPatter.loventure.content.global.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -16,6 +18,8 @@ import java.util.Map;
  * 테스트용으로만 사용하세요!
  */
 @Component
+@Profile({"dev", "test"}) // dev, test 프로필에서만 활성화
+@ConditionalOnProperty(name = "app.test-endpoints.enabled", havingValue = "true", matchIfMissing = false)
 public class JwtTokenGenerator {
 
     @Value("${jwt.secret}")

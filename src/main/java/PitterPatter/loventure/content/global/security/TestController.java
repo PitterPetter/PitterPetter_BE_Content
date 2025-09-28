@@ -1,5 +1,7 @@
 package PitterPatter.loventure.content.global.security;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/test")
 @Tag(name = "JWT 토큰 테스트", description = "JWT 토큰 생성 및 테스트 API")
+@Profile({"dev", "test"}) // dev, test 프로필에서만 활성화
+@ConditionalOnProperty(name = "app.test-endpoints.enabled", havingValue = "true", matchIfMissing = false)
 public class TestController {
 
     private final JwtTokenGenerator jwtTokenGenerator;

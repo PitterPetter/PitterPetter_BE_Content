@@ -29,6 +29,11 @@ jwt:
   redirect:
     onboarding: https://www.loventure.com/onboarding
     base: https://www.loventure.com/home
+
+# 테스트 엔드포인트 활성화 (개발 환경에서만)
+app:
+  test-endpoints:
+    enabled: true
   security:
     oauth2:
       client:
