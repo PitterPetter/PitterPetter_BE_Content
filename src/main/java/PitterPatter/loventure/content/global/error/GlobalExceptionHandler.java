@@ -42,6 +42,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> handleCustomException(CustomException ex, HttpServletRequest request) {
+        ErrorCode errorCode = ex.getErrorCode();
+        
+        ErrorResponse body = ErrorResponse.of(
+            errorCode.getHttpStatus().value(),
+            errorCode.getHttpStatus().getReasonPhrase(),
+            ex.getMessage(),
+            request.getRequestURI()
+        );
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(body);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handle(Exception ex, HttpServletRequest request) {
         ErrorResponse body = ErrorResponse.of(
