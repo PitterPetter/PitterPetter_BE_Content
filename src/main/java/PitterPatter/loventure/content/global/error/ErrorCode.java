@@ -28,7 +28,7 @@ public enum ErrorCode {
     COMMON500("COMMON500", "서버 내부 오류가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
     
     // ===== 다이어리 관련 에러 코드 =====
-    DIARY401("DIARY401", "다이어리 수정 권한이 없습니다", HttpStatus.UNAUTHORIZED),
+    DIARY401("DIARY401", "다이어리 접근 권한이 없습니다", HttpStatus.UNAUTHORIZED),
     DIARY402("DIARY402", "커플 정보가 일치하지 않습니다", HttpStatus.FORBIDDEN),
     DIARY404("DIARY404", "다이어리를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
     DIARY409("DIARY409", "다이어리 수정에 실패했습니다", HttpStatus.CONFLICT);
