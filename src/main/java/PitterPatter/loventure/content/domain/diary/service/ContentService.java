@@ -81,6 +81,15 @@ public class ContentService {
 
     public DiaryResponse loadDiary(Long coupleId, Long diaryId) {
         Content diary = contentRepository.findById(diaryId).orElse(null);
-        return DiaryResponse.create(diary); // TODO: exception 설정하기
+        return DiaryResponse.create(diary); // TODO: exception 설정하기, Content 엔터티로 받기
+    }
+
+    public DiaryResponse updateDiary(Content diary, String title, String content) {
+        diary.update(title, content);
+        return DiaryResponse.create(diary);
+    }
+
+    public Content findByDiaryId(Long diaryId) {
+        return contentRepository.findById(diaryId).orElse(null); // TODO: exception 설정하기
     }
 }
