@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,10 @@ public class ContentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<DiaryResponse> createDiary(
-            @Parameter(description = "사용자 ID", required = true)
-            @RequestHeader("X-User-Id") Long userId,
-            @Parameter(description = "커플 ID", required = true)
-            @RequestHeader("X-Couple-Id") Long coupleId,
-            @Parameter(description = "다이어리 생성 요청 정보", required = true)
-            @RequestBody CreateDiaryRequest body
+            // TODO: 머지 후 @CurrentUser, @CurrentCouple 로 바꾸기
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId,
+            @Parameter(hidden = true) @RequestHeader("X-Couple-Id") Long coupleId,
+            @Parameter(description = "다이어리 생성 요청 정보", required = true) @Valid @RequestBody CreateDiaryRequest body
     ) {
         DiaryResponse response = createDiaryUseCase.execute(userId, coupleId, body);
         return BaseResponse.success(response);
