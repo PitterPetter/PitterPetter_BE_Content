@@ -73,9 +73,38 @@ Body:
 
 ## 🐳 로컬 실행
 
+### 1. 환경 변수 설정
+```bash
+# .env 파일 복사 및 설정
+cp .env.example .env
+
+# .env 파일에서 실제 값으로 수정
+# - JWT_SECRET: 보안을 위한 강력한 시크릿 키
+# - GOOGLE_CLIENT_ID/SECRET: Google OAuth2 설정
+# - KAKAO_CLIENT_ID/SECRET: Kakao OAuth2 설정
+```
+
+### 2. 데이터베이스 실행
+```bash
+# Docker Compose로 PostgreSQL 실행
+docker-compose up -d
+```
+
+### 3. 애플리케이션 실행
 ```bash
 ./gradlew bootRun
 ```
+
+### 4. 환경 변수 설명
+- `DB_URL`: 데이터베이스 연결 URL
+- `DB_USERNAME`: 데이터베이스 사용자명
+- `DB_PASSWORD`: 데이터베이스 패스워드
+- `DB_NAME`: 데이터베이스 이름
+- `DB_PORT`: 데이터베이스 포트
+- `JWT_SECRET`: JWT 토큰 서명용 시크릿 키
+- `GOOGLE_CLIENT_ID/SECRET`: Google OAuth2 설정
+- `KAKAO_CLIENT_ID/SECRET`: Kakao OAuth2 설정
+
 ---
 
 ## 📘 API 문서
