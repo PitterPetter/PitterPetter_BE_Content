@@ -1,6 +1,6 @@
 package PitterPatter.loventure.content.domain.diary.application.dto.response;
 
-import PitterPatter.loventure.content.domain.diary.domain.entity.Content;
+import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -28,9 +28,9 @@ public record DiaryResponse(
         @Schema(description = "작성자 정보")
         Author author
 ) {
-    public static DiaryResponse create(Content diary) {
+    public static DiaryResponse create(Diary diary) {
         return builder()
-                .contentId(diary.getContentId())
+                .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())

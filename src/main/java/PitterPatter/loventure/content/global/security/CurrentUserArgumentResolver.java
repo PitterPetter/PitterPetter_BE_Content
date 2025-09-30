@@ -1,5 +1,7 @@
 package PitterPatter.loventure.content.global.security;
 
+import PitterPatter.loventure.content.global.annotation.CurrentCouple;
+import PitterPatter.loventure.content.global.annotation.CurrentUser;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -33,7 +35,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(CurrentUser.class) || 
+        return parameter.hasParameterAnnotation(CurrentUser.class) ||
                parameter.hasParameterAnnotation(CurrentCouple.class);
     }
 

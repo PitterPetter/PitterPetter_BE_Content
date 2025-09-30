@@ -6,8 +6,8 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.application.usecase.*;
 import PitterPatter.loventure.content.global.common.BaseResponse;
-import PitterPatter.loventure.content.global.security.CurrentUser;
-import PitterPatter.loventure.content.global.security.CurrentCouple;
+import PitterPatter.loventure.content.global.annotation.CurrentUser;
+import PitterPatter.loventure.content.global.annotation.CurrentCouple;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
