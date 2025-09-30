@@ -26,6 +26,7 @@ public class Content extends BaseTimeEntity {
     @Column(name = "content_id")
     private Long contentId;
 
+    // 필수: couple_id
     @Column(name = "couple_id", nullable = false)
     private Long coupleId;
 
