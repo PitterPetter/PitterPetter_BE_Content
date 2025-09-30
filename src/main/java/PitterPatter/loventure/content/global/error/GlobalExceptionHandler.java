@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
             .findFirst()
             .map(error -> error.getDefaultMessage())
             .orElse("Validation error");
-        
+   
         ErrorResponse body = ErrorResponse.of(
             HttpStatus.BAD_REQUEST.value(),
             HttpStatus.BAD_REQUEST.getReasonPhrase(),

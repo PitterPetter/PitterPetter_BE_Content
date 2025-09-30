@@ -1,7 +1,7 @@
 package PitterPatter.loventure.content.domain.diary.ui;
 
 import PitterPatter.loventure.content.domain.diary.application.dto.request.CreateDiaryRequest;
-import PitterPatter.loventure.content.domain.diary.application.dto.request.UpdateDiaryRequest;
+import PitterPatter.loventure.content.domain.diary.application.dto.request.UpdateDiaryRequest
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryListResponse;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.application.usecase.CreateDiaryUseCase;
@@ -11,11 +11,13 @@ import PitterPatter.loventure.content.domain.diary.application.usecase.UpdateDia
 import PitterPatter.loventure.content.global.common.BaseResponse;
 import PitterPatter.loventure.content.global.security.CurrentUser;
 import PitterPatter.loventure.content.global.security.CurrentCouple;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,12 +41,9 @@ public class ContentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<DiaryResponse> createDiary(
-            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true)
-            @CurrentUser Long userId,
-            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true)
-            @CurrentCouple Long coupleId,
-            @Parameter(description = "다이어리 생성 요청 정보", required = true)
-            @RequestBody CreateDiaryRequest body
+            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
+            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
+            @Parameter(description = "다이어리 생성 요청 정보", required = true) @Valid @RequestBody CreateDiaryRequest body
     ) {
         DiaryResponse response = createDiaryUseCase.execute(userId, coupleId, body);
         return BaseResponse.success(response);
