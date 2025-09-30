@@ -1,5 +1,7 @@
 package PitterPatter.loventure.content.global.security;
 
+import PitterPatter.loventure.content.global.annotation.CurrentCouple;
+import PitterPatter.loventure.content.global.annotation.CurrentUser;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
