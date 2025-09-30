@@ -92,4 +92,8 @@ public class ContentService {
     public Content findByDiaryId(Long diaryId) {
         return contentRepository.findById(diaryId).orElse(null); // TODO: exception 설정하기
     }
+
+    public void deleteDiary(Content diary) {
+        contentRepository.delete(diary);
+    }
 }
