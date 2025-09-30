@@ -22,8 +22,8 @@ public class ContentService {
     private final ContentRepository contentRepository;
 
     public DiaryResponse saveDiary(Long userId, Long coupleId, CreateDiaryRequest request) {
-        // TODO:
-
+        // TODO: auth 정보 받아오기
+        // 다이어리 엔터티 빌더로 생성
         Diary diary = Diary.builder()
                 .userId(userId)
                 .coupleId(coupleId)
@@ -33,6 +33,7 @@ public class ContentService {
                 .rating(request.rating())
                 .build();
 
+        // 저장 및 DiaryResponse 형태로 반환
         return DiaryResponse.create(contentRepository.save(diary));
     }
 
@@ -81,22 +82,26 @@ public class ContentService {
                 .build();
     }
 
+    // TODO: 지우기
     public DiaryResponse loadDiary(Long coupleId, Long diaryId) {
         Diary diary = contentRepository.findById(diaryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
         return DiaryResponse.create(diary);
     }
 
+    // 다이어리 엔터티 받아서 제목, 내용 수정
     public DiaryResponse updateDiary(Diary diary, String title, String content) {
         diary.update(title, content);
         return DiaryResponse.create(diary);
     }
 
+    // 다이어리 엔터티 반환
     public Diary findByDiaryId(Long diaryId) {
         return contentRepository.findById(diaryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
     }
 
+    // 다이어리 하드 삭제
     public void deleteDiary(Diary diary) {
         contentRepository.delete(diary);
     }
