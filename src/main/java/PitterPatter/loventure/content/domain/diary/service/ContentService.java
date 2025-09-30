@@ -82,13 +82,6 @@ public class ContentService {
                 .build();
     }
 
-    // TODO: 지우기
-    public DiaryResponse loadDiary(Long coupleId, Long diaryId) {
-        Diary diary = contentRepository.findById(diaryId)
-                .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
-        return DiaryResponse.create(diary);
-    }
-
     // 다이어리 엔터티 받아서 제목, 내용 수정
     public DiaryResponse updateDiary(Diary diary, String title, String content) {
         diary.update(title, content);
