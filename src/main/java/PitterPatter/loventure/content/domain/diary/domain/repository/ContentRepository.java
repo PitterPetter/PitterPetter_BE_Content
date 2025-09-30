@@ -15,5 +15,4 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회
     @Query("SELECT c FROM Content c WHERE c.coupleId = :coupleId ORDER BY c.createdAt DESC")
     Page<Content> findByCoupleIdOrderByCreatedAtDesc(@Param("coupleId") Long coupleId, Pageable pageable);
-
 }

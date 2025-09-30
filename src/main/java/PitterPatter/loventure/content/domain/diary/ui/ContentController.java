@@ -1,11 +1,13 @@
 package PitterPatter.loventure.content.domain.diary.ui;
 
 import PitterPatter.loventure.content.domain.diary.application.dto.request.CreateDiaryRequest;
+import PitterPatter.loventure.content.domain.diary.application.dto.request.UpdateDiaryRequest
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryListResponse;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.application.usecase.CreateDiaryUseCase;
 import PitterPatter.loventure.content.domain.diary.application.usecase.LoadDiaryListUseCase;
 import PitterPatter.loventure.content.domain.diary.application.usecase.LoadDiaryUseCase;
+import PitterPatter.loventure.content.domain.diary.application.usecase.UpdateDiaryUseCase;
 import PitterPatter.loventure.content.global.common.BaseResponse;
 import PitterPatter.loventure.content.global.security.CurrentUser;
 import PitterPatter.loventure.content.global.security.CurrentCouple;
@@ -28,6 +30,7 @@ public class ContentController {
     private final CreateDiaryUseCase createDiaryUseCase;
     private final LoadDiaryListUseCase loadDiaryListUseCase;
     private final LoadDiaryUseCase loadDiaryUseCase;
+    private final UpdateDiaryUseCase updateDiaryUseCase;
 
     @PostMapping("")
     @Operation(summary = "다이어리 생성", description = "새로운 다이어리를 생성합니다. JWT 토큰에서 사용자 ID와 커플 ID를 자동으로 추출합니다.")
@@ -65,5 +68,16 @@ public class ContentController {
             @PathVariable Long diaryId
     ) {
         return BaseResponse.success(loadDiaryUseCase.execute(userId, coupleId, diaryId));
+    }
+
+    @PostMapping("/{diaryId}")
+    @Operation(summary = "다이어리 수정")
+    public BaseResponse<DiaryResponse> updateDiary(
+            @Parameter(hidden = true) @CurrentUser Long userId,
+            @Parameter(hidden = true) @CurrentCouple Long coupleId,
+            @PathVariable Long diaryId,
+            @RequestBody UpdateDiaryRequest request
+    ) {
+        return BaseResponse.success(updateDiaryUseCase.execute(diaryId, userId, coupleId, request));
     }
 }
