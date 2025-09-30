@@ -26,7 +26,6 @@ public class Content extends BaseTimeEntity {
     @Column(name = "content_id")
     private Long contentId;
 
-    // msa 환경: 다른 서비스의 fk는 물리적 제약 없이 보관
     // 필수: couple_id
     @Column(name = "couple_id", nullable = false)
     private Long coupleId;
@@ -39,7 +38,6 @@ public class Content extends BaseTimeEntity {
     private Long courseId;
 
     // 평점: 소수점(예: 4.8). 금액/정밀도가 중요한 도메인이 아니므로 Double로 저장
-    // 필요 시 precision/scale을 조절하려면 BigDecimal 사용 고려
     @Column(name = "rating")
     private Double rating;
 
