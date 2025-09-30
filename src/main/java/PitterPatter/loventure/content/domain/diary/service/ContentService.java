@@ -25,7 +25,7 @@ public class ContentService {
         Content content = Content.builder()
                 .userId(userId)
                 .coupleId(coupleId)
-                .courseId(request.course_id())
+                .courseId(request.courseId())
                 .title(request.title())
                 .content(request.content())
                 .rating(request.rating())

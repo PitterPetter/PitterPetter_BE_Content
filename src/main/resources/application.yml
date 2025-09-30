@@ -9,4 +9,3 @@ spring:
 app:
   test-endpoints:
     enabled: false
-
