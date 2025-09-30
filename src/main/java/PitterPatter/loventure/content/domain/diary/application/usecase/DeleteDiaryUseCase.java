@@ -1,6 +1,6 @@
 package PitterPatter.loventure.content.domain.diary.application.usecase;
 
-import PitterPatter.loventure.content.domain.diary.domain.entity.Content;
+import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.service.ContentService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
@@ -16,7 +16,7 @@ public class DeleteDiaryUseCase {
 
     @Transactional
     public Void execute(Long userId, Long coupleId, Long diaryId) {
-        Content diary = contentService.findByDiaryId(diaryId);
+        Diary diary = contentService.findByDiaryId(diaryId);
         if(!diary.getUserId().equals(userId)) {
             throw new CustomException(ErrorCode.DIARY401);
         }
