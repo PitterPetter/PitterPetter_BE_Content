@@ -1,11 +1,43 @@
 spring:
-  profiles:
-    default: dev
-  config:
-    import:
-      - optional:file:.env
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
-# 운영 환경에서는 테스트 엔드포인트 비활성화
-app:
-  test-endpoints:
-    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  swagger-ui:
+    path: /docs
+    persist-authorization: true
+
+jwt:
+  secret: ${JWT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      enabled: true
+  health:
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+    defaults:
+      enabled: true
+  security:
+    enabled: false  # Health endpoint 인증 비활성화
+
