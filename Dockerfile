@@ -33,8 +33,8 @@ COPY --from=build /workspace/build/libs/*.jar /app/app.jar
 LABEL authors="pitterpetter"
 
 ENV SERVER_PORT=8080
-EXPOSE 8080
+EXPOSE 8082
 
 # 컨테이너 환경에서 메모리 친화 옵션 + 포트 주입
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError -Duser.timezone=Asia/Seoul"
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=$SERVER_PORT -jar /app/app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
