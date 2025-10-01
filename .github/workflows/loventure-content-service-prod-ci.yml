@@ -33,8 +33,6 @@ jobs:
           tags: |
             pitterpetter/content-service:${{ steps.vars.outputs.sha_short }}
             pitterpetter/content-service:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       # ArgoCD가 참조하는 Repository로 checkout
       - name: Update Manifest Repo
