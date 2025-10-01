@@ -32,7 +32,7 @@ COPY --from=build /workspace/build/libs/*.jar /app/app.jar
 
 LABEL authors="pitterpetter"
 
-ENV SERVER_PORT=8080
+ENV SERVER_PORT=8082
 EXPOSE 8082
 
 # 컨테이너 환경에서 메모리 친화 옵션 + 포트 주입
