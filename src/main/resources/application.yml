@@ -5,7 +5,6 @@ spring:
     config:
       uri: http://config-server.config-server.svc.cluster.local:80
       name: content-service
-      label: dev
       fail-fast: true
   application:
     name: content-service
