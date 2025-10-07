@@ -1,4 +1,4 @@
-package PitterPatter.loventure.content.global.security;
+package PitterPatter.loventure.content.global.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -18,13 +18,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Content extends BaseTimeEntity {
+public class Diary extends BaseTimeEntity {
 
     // pk: diary_id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "content_id")
-    private Long contentId;
+    @Column(name = "diary_id")
+    private Long diaryId;
 
     // 필수: couple_id
     @Column(name = "couple_id", nullable = false)
@@ -47,4 +47,9 @@ public class Content extends BaseTimeEntity {
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
