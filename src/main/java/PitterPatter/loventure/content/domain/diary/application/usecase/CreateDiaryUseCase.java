@@ -2,6 +2,8 @@ package PitterPatter.loventure.content.domain.diary.application.usecase;
 
 import PitterPatter.loventure.content.domain.diary.application.dto.request.CreateDiaryRequest;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
+import PitterPatter.loventure.content.domain.diary.application.service.UserLookupService;
+import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateDiaryUseCase {
 
     private final ContentService contentService;
+    private final UserLookupService userLookupService;
 
     @Transactional
-    public DiaryResponse execute(Long userId, Long coupleId, CreateDiaryRequest request) {
+    public DiaryResponse execute(String token, Long userId, Long coupleId, CreateDiaryRequest request) {
 
-        // auth 서비스에 유저 정보 요청하는 건 추후에
-        /*Author author = Author.builder()
-                .userId(userId)
-                .nickname("사용자" + userId) // 임시 닉네임, 실제로는 User 서비스에서 가져와야 함
-                .build();*/
+        String author = userLookupService.getUserName(userId, token);
 
-        return contentService.saveDiary(userId, coupleId, request);
+        // Diary entity 생성
+        Diary diary = contentService.saveDiary(userId, author, coupleId, request);
+
+        return DiaryResponse.create(diary);
     }
 }
