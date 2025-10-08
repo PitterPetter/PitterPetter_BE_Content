@@ -31,7 +31,12 @@ public enum ErrorCode {
     DIARY401("DIARY401", "다이어리 접근 권한이 없습니다", HttpStatus.UNAUTHORIZED),
     DIARY402("DIARY402", "커플 정보가 일치하지 않습니다", HttpStatus.FORBIDDEN),
     DIARY404("DIARY404", "다이어리를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
-    DIARY409("DIARY409", "다이어리 수정에 실패했습니다", HttpStatus.CONFLICT);
+    DIARY409("DIARY409", "다이어리 수정에 실패했습니다", HttpStatus.CONFLICT),
+    
+    // ===== Auth 서비스 통신 관련 에러 코드 =====
+    AUTH_SERVICE_UNAVAILABLE("AUTH500", "Auth 서비스와 통신할 수 없습니다", HttpStatus.SERVICE_UNAVAILABLE),
+    USER_NOT_FOUND("AUTH404", "해당 사용자를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
+    AUTH_SERVICE_ERROR("AUTH502", "Auth 서비스에서 오류가 발생했습니다", HttpStatus.BAD_GATEWAY);
     
     private final String code;
     private final String message;
