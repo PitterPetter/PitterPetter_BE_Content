@@ -21,8 +21,7 @@ public class ContentService {
 
     private final ContentRepository contentRepository;
 
-    public DiaryResponse saveDiary(Long userId, Long coupleId, CreateDiaryRequest request) {
-        // TODO: auth 정보 받아오기
+    public Diary saveDiary(Long userId, String author, Long coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
         Diary diary = Diary.builder()
                 .userId(userId)
@@ -31,10 +30,11 @@ public class ContentService {
                 .title(request.title())
                 .content(request.content())
                 .rating(request.rating())
+                .authorName(author)
                 .build();
 
-        // 저장 및 DiaryResponse 형태로 반환
-        return DiaryResponse.create(contentRepository.save(diary));
+        // 저장 및 Diary 형태로 반환
+        return contentRepository.save(diary);
     }
 
     public int getAllDiaryCount(Long coupleId) {

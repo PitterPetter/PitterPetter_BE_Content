@@ -33,6 +33,10 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    // 작성자 이름 (auth 서비스에서 받아온 정보)
+    @Column(name = "author_name", nullable = false, length = 50)
+    private String authorName;
+
     // 선택: course_id (없을 수 있음)
     @Column(name = "course_id")
     private Long courseId;

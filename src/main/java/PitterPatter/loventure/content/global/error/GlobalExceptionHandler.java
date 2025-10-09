@@ -1,5 +1,6 @@
 package PitterPatter.loventure.content.global.error;
 
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,6 +95,42 @@ public class GlobalExceptionHandler {
             errorCode.getHttpStatus().getReasonPhrase(), // HTTP 상태 메시지 (예: "Unauthorized")
             ex.getMessage(),                        // 실제 에러 메시지
             request.getRequestURI()                 // 요청 경로
+        );
+        
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(body);
+    }
+
+    /**
+     * Feign Client 호출 시 발생하는 예외 처리
+     * 
+     * Auth 서비스와의 통신 실패, 타임아웃, 404 등을 처리합니다.
+     * 
+     * @param ex Feign 예외
+     * @param request HTTP 요청 정보
+     * @return 상황에 맞는 HTTP 응답
+     */
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorResponse> handleFeignException(FeignException ex, HttpServletRequest request) {
+        ErrorCode errorCode;
+        String message;
+        
+        // Feign 예외 상태 코드에 따라 적절한 ErrorCode 매핑
+        if (ex.status() == 404) {
+            errorCode = ErrorCode.USER_NOT_FOUND;
+            message = errorCode.getMessage();
+        } else if (ex.status() >= 500) {
+            errorCode = ErrorCode.AUTH_SERVICE_ERROR;
+            message = errorCode.getMessage();
+        } else {
+            errorCode = ErrorCode.AUTH_SERVICE_UNAVAILABLE;
+            message = "Auth 서비스 호출 중 오류가 발생했습니다: " + ex.getMessage();
+        }
+        
+        ErrorResponse body = ErrorResponse.of(
+            errorCode.getHttpStatus().value(),
+            errorCode.getHttpStatus().getReasonPhrase(),
+            message,
+            request.getRequestURI()
         );
         
         return ResponseEntity.status(errorCode.getHttpStatus()).body(body);
