@@ -2,7 +2,7 @@ package PitterPatter.loventure.content.domain.diary.application.usecase;
 
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.ContentService;
+import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoadDiaryUseCase {
 
-    private final ContentService contentService;
+    private final DiaryServiec diaryServiec;
 
     public DiaryResponse execute(Long userId, Long coupleId, Long diaryId) {
-        Diary diary = contentService.findByDiaryId(diaryId);
+        Diary diary = diaryServiec.findByDiaryId(diaryId);
 
         // 다이어리 작성자랑 요청자랑 다르면 익셉션
         if(!diary.getUserId().equals(userId)) {

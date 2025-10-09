@@ -1,7 +1,7 @@
 package PitterPatter.loventure.content.domain.diary.application.usecase;
 
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryListResponse;
-import PitterPatter.loventure.content.domain.diary.service.ContentService;
+import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoadDiaryListUseCase {
 
-    private final ContentService contentService;
+    private final DiaryServiec diaryServiec;
 
     public DiaryListResponse execute(Long userId, Long coupleId, int page, int size) {
-        return contentService.loadDiaryList(userId, coupleId, page, size);
+        return diaryServiec.loadDiaryList(userId, coupleId, page, size);
     }
 }

@@ -3,7 +3,7 @@ package PitterPatter.loventure.content.domain.diary.application.usecase;
 import PitterPatter.loventure.content.domain.diary.application.dto.request.UpdateDiaryRequest;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.ContentService;
+import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UpdateDiaryUseCase {
 
-    private final ContentService contentService;
+    private final DiaryServiec diaryServiec;
 
     /**
      * 다이어리 수정을 실행합니다.
@@ -38,7 +38,7 @@ public class UpdateDiaryUseCase {
     @Transactional
     public DiaryResponse execute(Long diaryId, Long userId, Long coupleId, UpdateDiaryRequest request) {
         // 다이어리 조회
-        Diary diary = contentService.findByDiaryId(diaryId);
+        Diary diary = diaryServiec.findByDiaryId(diaryId);
 
         // 사용자 권한 검증: 다이어리 작성자만 수정 가능
         if(!diary.getUserId().equals(userId)) {
@@ -53,6 +53,6 @@ public class UpdateDiaryUseCase {
         }
 
         // 검증 통과 시 다이어리 수정 실행
-        return contentService.updateDiary(diary, request.title(), request.content());
+        return diaryServiec.updateDiary(diary, request.title(), request.content());
     }
 }
