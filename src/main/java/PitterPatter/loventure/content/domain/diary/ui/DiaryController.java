@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/diaries")
 @Tag(name = "Diary", description = "다이어리 관리 API")
-public class ContentController {
+public class DiaryController {
 
     private final CreateDiaryUseCase createDiaryUseCase;
     private final LoadDiaryListUseCase loadDiaryListUseCase;

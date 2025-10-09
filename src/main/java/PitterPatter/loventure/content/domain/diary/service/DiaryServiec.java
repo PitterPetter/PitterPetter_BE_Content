@@ -6,7 +6,7 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiarySummary;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.PageInfo;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.domain.repository.ContentRepository;
+import PitterPatter.loventure.content.domain.diary.domain.repository.DiaryRepository;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ContentService {
+public class DiaryServiec {
 
-    private final ContentRepository contentRepository;
+    private final DiaryRepository diaryRepository;
 
     public Diary saveDiary(Long userId, String author, Long coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
@@ -34,11 +34,11 @@ public class ContentService {
                 .build();
 
         // 저장 및 Diary 형태로 반환
-        return contentRepository.save(diary);
+        return diaryRepository.save(diary);
     }
 
     public int getAllDiaryCount(Long coupleId) {
-        return (int) contentRepository.countByCoupleId(coupleId);
+        return (int) diaryRepository.countByCoupleId(coupleId);
     }
 
     public DiaryListResponse loadDiaryList(Long userId, Long coupleId, int page, int size) {
@@ -46,7 +46,7 @@ public class ContentService {
         Pageable pageable = PageRequest.of(page, size);
         
         // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회
-        Page<Diary> contentPage = contentRepository.findByCoupleIdAndUserIdOrderByCreatedAtDesc(coupleId, userId, pageable);
+        Page<Diary> contentPage = diaryRepository.findByCoupleIdAndUserIdOrderByCreatedAtDesc(coupleId, userId, pageable);
 
         // Content 엔티티를 DiarySummary로 변환
         var diarySummaries = contentPage.getContent().stream()
@@ -90,12 +90,12 @@ public class ContentService {
 
     // 다이어리 엔터티 반환
     public Diary findByDiaryId(Long diaryId) {
-        return contentRepository.findById(diaryId)
+        return diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
     }
 
     // 다이어리 하드 삭제
     public void deleteDiary(Diary diary) {
-        contentRepository.delete(diary);
+        diaryRepository.delete(diary);
     }
 }

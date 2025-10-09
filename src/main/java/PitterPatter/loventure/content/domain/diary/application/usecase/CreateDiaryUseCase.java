@@ -4,7 +4,7 @@ import PitterPatter.loventure.content.domain.diary.application.dto.request.Creat
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.application.service.UserLookupService;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.ContentService;
+import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CreateDiaryUseCase {
 
-    private final ContentService contentService;
+    private final DiaryServiec diaryServiec;
     private final UserLookupService userLookupService;
 
     @Transactional
@@ -22,7 +22,7 @@ public class CreateDiaryUseCase {
         String author = userLookupService.getUserName(userId, token);
 
         // Diary entity 생성
-        Diary diary = contentService.saveDiary(userId, author, coupleId, request);
+        Diary diary = diaryServiec.saveDiary(userId, author, coupleId, request);
 
         return DiaryResponse.create(diary);
     }
