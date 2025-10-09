@@ -26,8 +26,6 @@ public class UpdateCommentUseCase {
             throw new CustomException(ErrorCode.COMMENT401);
         }
 
-
-
         // 댓글 수정
         comment.update(request.content());
 
