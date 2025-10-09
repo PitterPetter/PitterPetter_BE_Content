@@ -33,6 +33,10 @@ public enum ErrorCode {
     DIARY404("DIARY404", "다이어리를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
     DIARY409("DIARY409", "다이어리 수정에 실패했습니다", HttpStatus.CONFLICT),
     
+    // ===== 댓글 관련 에러 코드 =====
+    COMMENT401("COMMENT401", "댓글 수정/삭제 권한이 없습니다", HttpStatus.UNAUTHORIZED),
+    COMMENT404("COMMENT404", "댓글을 찾을 수 없습니다", HttpStatus.NOT_FOUND),
+    
     // ===== Auth 서비스 통신 관련 에러 코드 =====
     AUTH_SERVICE_UNAVAILABLE("AUTH500", "Auth 서비스와 통신할 수 없습니다", HttpStatus.SERVICE_UNAVAILABLE),
     USER_NOT_FOUND("AUTH404", "해당 사용자를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
