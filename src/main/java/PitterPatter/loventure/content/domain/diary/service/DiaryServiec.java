@@ -5,8 +5,10 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiarySummary;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.PageInfo;
-import PitterPatter.loventure.content.domain.diary.domain.entity.Content;
-import PitterPatter.loventure.content.domain.diary.domain.repository.ContentRepository;
+import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
+import PitterPatter.loventure.content.domain.diary.domain.repository.DiaryRepository;
+import PitterPatter.loventure.content.global.error.CustomException;
+import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,27 +17,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ContentService {
+public class DiaryServiec {
 
-    private final ContentRepository contentRepository;
+    private final DiaryRepository diaryRepository;
 
-    public DiaryResponse saveDiary(Long userId, Long coupleId, CreateDiaryRequest request) {
-        // TODO:
-
-        Content content = Content.builder()
+    public Diary saveDiary(Long userId, String author, Long coupleId, CreateDiaryRequest request) {
+        // 다이어리 엔터티 빌더로 생성
+        Diary diary = Diary.builder()
                 .userId(userId)
                 .coupleId(coupleId)
                 .courseId(request.courseId())
                 .title(request.title())
                 .content(request.content())
                 .rating(request.rating())
+                .authorName(author)
                 .build();
 
-        return DiaryResponse.create(contentRepository.save(content));
+        // 저장 및 Diary 형태로 반환
+        return diaryRepository.save(diary);
     }
 
     public int getAllDiaryCount(Long coupleId) {
-        return (int) contentRepository.countByCoupleId(coupleId);
+        return (int) diaryRepository.countByCoupleId(coupleId);
     }
 
     public DiaryListResponse loadDiaryList(Long userId, Long coupleId, int page, int size) {
@@ -43,8 +46,8 @@ public class ContentService {
         Pageable pageable = PageRequest.of(page, size);
         
         // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회
-        Page<Content> contentPage = contentRepository.findByCoupleIdOrderByCreatedAtDesc(coupleId, pageable);
-        
+        Page<Diary> contentPage = diaryRepository.findByCoupleIdAndUserIdOrderByCreatedAtDesc(coupleId, userId, pageable);
+
         // Content 엔티티를 DiarySummary로 변환
         var diarySummaries = contentPage.getContent().stream()
                 .map(this::convertToDiarySummary)
@@ -64,36 +67,35 @@ public class ContentService {
                 .build();
     }
     
-    private DiarySummary convertToDiarySummary(Content content) {
+    private DiarySummary convertToDiarySummary(Diary diary) {
         // content에서 excerpt 생성 (첫 100자만)
-        String excerpt = content.getContent().length() > 32
-                ? content.getContent().substring(0, 32) + "..."
-                : content.getContent();
+        String excerpt = diary.getContent().length() > 32
+                ? diary.getContent().substring(0, 32) + "..."
+                : diary.getContent();
 
         return DiarySummary.builder()
-                .diaryId(content.getContentId())
-                .title(content.getTitle())
+                .diaryId(diary.getDiaryId())
+                .title(diary.getTitle())
                 .excerpt(excerpt)
-                .updatedAt(content.getUpdatedAt())
+                .updatedAt(diary.getUpdatedAt())
                 .likeCount(0) // TODO: 좋아요 기능 구현 시 실제 값으로 변경
                 .build();
     }
 
-    public DiaryResponse loadDiary(Long coupleId, Long diaryId) {
-        Content diary = contentRepository.findById(diaryId).orElse(null);
-        return DiaryResponse.create(diary); // TODO: exception 설정하기, Content 엔터티로 받기
-    }
-
-    public DiaryResponse updateDiary(Content diary, String title, String content) {
+    // 다이어리 엔터티 받아서 제목, 내용 수정
+    public DiaryResponse updateDiary(Diary diary, String title, String content) {
         diary.update(title, content);
         return DiaryResponse.create(diary);
     }
 
-    public Content findByDiaryId(Long diaryId) {
-        return contentRepository.findById(diaryId).orElse(null); // TODO: exception 설정하기
+    // 다이어리 엔터티 반환
+    public Diary findByDiaryId(Long diaryId) {
+        return diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
     }
 
-    public void deleteDiary(Content diary) {
-        contentRepository.delete(diary);
+    // 다이어리 하드 삭제
+    public void deleteDiary(Diary diary) {
+        diaryRepository.delete(diary);
     }
 }

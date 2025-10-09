@@ -18,13 +18,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Content extends BaseTimeEntity {
+public class Diary extends BaseTimeEntity {
 
     // pk: diary_id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "content_id")
-    private Long contentId;
+    @Column(name = "diary_id")
+    private Long diaryId;
 
     // 필수: couple_id
     @Column(name = "couple_id", nullable = false)
@@ -32,6 +32,10 @@ public class Content extends BaseTimeEntity {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    // 작성자 이름 (auth 서비스에서 받아온 정보)
+    @Column(name = "author_name", nullable = false, length = 50)
+    private String authorName;
 
     // 선택: course_id (없을 수 있음)
     @Column(name = "course_id")

@@ -1,11 +1,13 @@
 spring:
-  profiles:
-    default: dev
   config:
-    import:
-      - optional:file:.env
-
-# 운영 환경에서는 테스트 엔드포인트 비활성화
-app:
-  test-endpoints:
-    enabled: false
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://config-server.config-server.svc.cluster.local:80
+      name: content-service
+      label: main
+      fail-fast: true
+  application:
+    name: content-service
+  profiles:
+    active: prod
