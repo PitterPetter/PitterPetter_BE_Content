@@ -22,15 +22,15 @@ public class CreateCommentUseCase {
     private final UserLookupService userLookupService;
 
     @Transactional
-    public CommentIdResponse execute(String token, Long userId, Long coupleId, Long diaryId, CreateCommentRequest request) {
+    public CommentIdResponse execute(Long userId, Long coupleId, Long diaryId, CreateCommentRequest request) {
         // 다이어리 존재 여부 확인 및 커플 권한 확인
         Diary diary = diaryService.findByDiaryId(diaryId);
         if (!diary.getCoupleId().equals(coupleId)) {
             throw new CustomException(ErrorCode.DIARY402);
         }
 
-        // 사용자 이름 조회
-        String authorName = userLookupService.getUserName(userId, token);
+        // userId로 사용자 이름 조회 (이미 JWT 인증 완료된 상태)
+        String authorName = userLookupService.getUserName(userId);
 
         // 댓글 생성
         Comment comment = commentService.saveComment(diaryId, userId, authorName, request);

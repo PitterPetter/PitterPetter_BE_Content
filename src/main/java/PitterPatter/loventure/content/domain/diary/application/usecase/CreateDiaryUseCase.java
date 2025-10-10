@@ -17,9 +17,10 @@ public class CreateDiaryUseCase {
     private final UserLookupService userLookupService;
 
     @Transactional
-    public DiaryResponse execute(String token, Long userId, Long coupleId, CreateDiaryRequest request) {
+    public DiaryResponse execute(Long userId, Long coupleId, CreateDiaryRequest request) {
 
-        String author = userLookupService.getUserName(userId, token);
+        // userId로 사용자 이름 조회 (이미 JWT 인증 완료된 상태)
+        String author = userLookupService.getUserName(userId);
 
         // Diary entity 생성
         Diary diary = diaryServiec.saveDiary(userId, author, coupleId, request);
