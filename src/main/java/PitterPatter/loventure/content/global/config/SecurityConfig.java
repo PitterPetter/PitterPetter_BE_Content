@@ -28,7 +28,6 @@ public class SecurityConfig {
                         .requestMatchers("/docs/**", "/v3/api-docs/**", "/swagger-ui/**", "/actuator/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger UI 완전 허용
                         .requestMatchers("/api/diaries/swagger-ui/**", "/api/diaries/swagger-ui.html", "/api/diaries/v3/api-docs/**").permitAll() // 다이어리 API 문서 허용
-                        .requestMatchers("/api/diaries/**").authenticated() // 다이어리 API는 JWT 인증 필요
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(tokenProvider.getJwtDecoder())));
