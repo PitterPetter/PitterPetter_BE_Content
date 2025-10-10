@@ -1,6 +1,7 @@
 package PitterPatter.loventure.content.domain.diary.domain.entity;
 
 import PitterPatter.loventure.content.global.common.BaseTimeEntity;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Diary extends BaseTimeEntity {
 
     // pk: diary_id
-    @Id
+    @Id @Tsid
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "diary_id")
     private Long diaryId;
@@ -37,8 +38,8 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "author_name", nullable = false, length = 50)
     private String authorName;
 
-    // 선택: course_id (없을 수 있음)
-    @Column(name = "course_id")
+    // 필수: course_id
+    @Column(name = "course_id", nullable = false)
     private Long courseId;
 
     // 평점: 소수점(예: 4.8). 금액/정밀도가 중요한 도메인이 아니므로 Double로 저장
