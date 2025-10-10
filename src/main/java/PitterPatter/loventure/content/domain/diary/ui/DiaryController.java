@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/diaries")
 @Tag(name = "Diary", description = "다이어리 관리 API")
-public class ContentController {
+public class DiaryController {
 
     private final CreateDiaryUseCase createDiaryUseCase;
     private final LoadDiaryListUseCase loadDiaryListUseCase;
@@ -39,11 +39,12 @@ public class ContentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<DiaryResponse> createDiary(
+            @Parameter(description = "토큰값", hidden = true) @CurrentUser String token,
             @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
             @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
             @Parameter(description = "다이어리 생성 요청 정보", required = true) @Valid @RequestBody CreateDiaryRequest body
     ) {
-        DiaryResponse response = createDiaryUseCase.execute(userId, coupleId, body);
+        DiaryResponse response = createDiaryUseCase.execute(token, userId, coupleId, body);
         return BaseResponse.success(response);
     }
 
