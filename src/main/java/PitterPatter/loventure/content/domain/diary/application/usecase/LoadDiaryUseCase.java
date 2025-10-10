@@ -6,6 +6,7 @@ import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.image.application.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class LoadDiaryUseCase {
 
     private final DiaryServiec diaryServiec;
     private final CommentService commentService;
+    private final ImageService imageService;
 
     public DiaryResponse execute(Long userId, Long coupleId, Long diaryId) {
         Diary diary = diaryServiec.findByDiaryId(diaryId);
@@ -29,12 +31,22 @@ public class LoadDiaryUseCase {
             throw new CustomException(ErrorCode.DIARY402);
         }
 
+        // 이미지 URL 생성
+        String imageUrl = null;
+        if (diary.getImageId() != null) {
+            try {
+                imageUrl = imageService.getSignedUrl(diary.getImageId());
+            } catch (Exception e) {
+                imageUrl = null;
+            }
+        }
+
         // 댓글 목록 조회
         List<Comment> comments = commentService.findByDiaryId(diaryId);
         List<CommentResponse> commentResponses = comments.stream()
                 .map(CommentResponse::from)
                 .collect(Collectors.toList());
 
-        return DiaryResponse.createWithComments(diary, commentResponses);
+        return DiaryResponse.createWithComments(diary, imageUrl, commentResponses);
     }
 }

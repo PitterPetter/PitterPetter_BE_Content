@@ -19,6 +19,10 @@ public record DiaryResponse(
         String content,
         @Schema(description = "코스 ID", example = "1")
         Long courseId,
+        @Schema(description = "이미지 ID", example = "1")
+        Long imageId,
+        @Schema(description = "이미지 Signed URL (15분 유효)", example = "https://storage.googleapis.com/...")
+        String imageUrl,
         @Schema(description = "작성자 userId")
         String userId,
         @Schema(description = "작성자 정보")
@@ -30,12 +34,14 @@ public record DiaryResponse(
         @Schema(description = "댓글 목록")
         List<CommentResponse> comments
 ) {
-    public static DiaryResponse create(Diary diary) {
+    public static DiaryResponse create(Diary diary, String imageUrl) {
         return builder()
                 .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
+                .imageId(diary.getImageId())
+                .imageUrl(imageUrl)
                 .createdAt(diary.getCreatedAt())
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
@@ -43,12 +49,14 @@ public record DiaryResponse(
                 .build();
     }
 
-    public static DiaryResponse createWithComments(Diary diary, List<CommentResponse> comments) {
+    public static DiaryResponse createWithComments(Diary diary, String imageUrl, List<CommentResponse> comments) {
         return builder()
                 .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
+                .imageId(diary.getImageId())
+                .imageUrl(imageUrl)
                 .createdAt(diary.getCreatedAt())
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())

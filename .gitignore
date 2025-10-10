@@ -45,3 +45,8 @@ src/main/resources/application.yml
 .DS_Store
 src/main/resources/.env.properties
 .env
+
+### GCS 인증 키 (절대 커밋 금지!) ###
+pitterpetter-*.json
+gcs-*.json
+*-service-account.json

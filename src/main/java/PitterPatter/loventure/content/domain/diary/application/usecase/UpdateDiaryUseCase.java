@@ -4,11 +4,15 @@ import PitterPatter.loventure.content.domain.diary.application.dto.request.Updat
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.image.application.service.ImageService;
+import PitterPatter.loventure.content.domain.image.domain.entity.Image;
+import PitterPatter.loventure.content.domain.image.domain.entity.ImageType;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 다이어리 수정을 처리하는 UseCase
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UpdateDiaryUseCase {
 
     private final DiaryServiec diaryServiec;
+    private final ImageService imageService;
 
     /**
      * 다이어리 수정을 실행합니다.
@@ -32,11 +37,12 @@ public class UpdateDiaryUseCase {
      * @param userId 요청한 사용자 ID
      * @param coupleId 요청한 사용자의 커플 ID
      * @param request 수정 요청 정보 (제목, 내용)
+     * @param imageFile 이미지 파일 (선택사항)
      * @return 수정된 다이어리 정보
      * @throws CustomException 권한 검증 실패 시
      */
     @Transactional
-    public DiaryResponse execute(Long diaryId, Long userId, Long coupleId, UpdateDiaryRequest request) {
+    public DiaryResponse execute(Long diaryId, Long userId, Long coupleId, UpdateDiaryRequest request, MultipartFile imageFile) {
         // 다이어리 조회
         Diary diary = diaryServiec.findByDiaryId(diaryId);
 
@@ -53,6 +59,19 @@ public class UpdateDiaryUseCase {
         }
 
         // 검증 통과 시 다이어리 수정 실행
-        return diaryServiec.updateDiary(diary, request.title(), request.content());
+        DiaryResponse response = diaryServiec.updateDiary(diary, request.title(), request.content());
+
+        // 이미지 파일이 있으면 교체
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Long existingImageId = diary.getImageId();
+            Image newImage = imageService.replaceImage(existingImageId, imageFile, ImageType.DIARY, diaryId);
+            diary.updateImageId(newImage.getImageId());
+            
+            // 새 이미지 URL 생성하여 응답에 반영
+            String newImageUrl = imageService.getSignedUrl(newImage.getImageId());
+            return DiaryResponse.create(diary, newImageUrl);
+        }
+
+        return response;
     }
 }

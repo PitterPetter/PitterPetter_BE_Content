@@ -52,8 +52,16 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    // 선택: image_id (Image 테이블 FK)
+    @Column(name = "image_id")
+    private Long imageId;
+
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void updateImageId(Long imageId) {
+        this.imageId = imageId;
     }
 }

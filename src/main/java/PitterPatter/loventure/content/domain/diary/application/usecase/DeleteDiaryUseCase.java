@@ -3,6 +3,7 @@ package PitterPatter.loventure.content.domain.diary.application.usecase;
 import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.image.application.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class DeleteDiaryUseCase {
 
     private final DiaryServiec diaryServiec;
     private final CommentService commentService;
+    private final ImageService imageService;
 
     @Transactional
     public Void execute(Long userId, Long coupleId, Long diaryId) {
@@ -27,6 +29,11 @@ public class DeleteDiaryUseCase {
         }
         if(!diary.getCoupleId().equals(coupleId)) {
             throw new CustomException(ErrorCode.DIARY402);
+        }
+
+        // 연결된 이미지 삭제
+        if (diary.getImageId() != null) {
+            imageService.deleteImage(diary.getImageId());
         }
 
         // 댓글 먼저 삭제

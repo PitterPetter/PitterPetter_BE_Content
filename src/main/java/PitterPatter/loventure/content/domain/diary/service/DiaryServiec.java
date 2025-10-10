@@ -7,6 +7,7 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.application.dto.response.PageInfo;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.domain.repository.DiaryRepository;
+import PitterPatter.loventure.content.domain.image.application.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class DiaryServiec {
 
     private final DiaryRepository diaryRepository;
+    private final ImageService imageService;
 
     public Diary saveDiary(Long userId, String author, Long coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
@@ -73,10 +75,23 @@ public class DiaryServiec {
                 ? diary.getContent().substring(0, 32) + "..."
                 : diary.getContent();
 
+        // 이미지 ID가 있으면 Signed URL 생성
+        String imageUrl = null;
+        if (diary.getImageId() != null) {
+            try {
+                imageUrl = imageService.getSignedUrl(diary.getImageId());
+            } catch (Exception e) {
+                // 이미지 조회 실패 시 null 반환 (이미지는 필수가 아니므로)
+                imageUrl = null;
+            }
+        }
+
         return DiarySummary.builder()
                 .diaryId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .excerpt(excerpt)
+                .imageId(diary.getImageId())
+                .imageUrl(imageUrl)
                 .updatedAt(diary.getUpdatedAt())
                 .likeCount(0) // TODO: 좋아요 기능 구현 시 실제 값으로 변경
                 .build();
@@ -85,7 +100,23 @@ public class DiaryServiec {
     // 다이어리 엔터티 받아서 제목, 내용 수정
     public DiaryResponse updateDiary(Diary diary, String title, String content) {
         diary.update(title, content);
-        return DiaryResponse.create(diary);
+        
+        // 이미지 URL 생성
+        String imageUrl = getImageUrl(diary.getImageId());
+        
+        return DiaryResponse.create(diary, imageUrl);
+    }
+    
+    // 이미지 ID로 Signed URL 생성 (헬퍼 메서드)
+    private String getImageUrl(Long imageId) {
+        if (imageId == null) {
+            return null;
+        }
+        try {
+            return imageService.getSignedUrl(imageId);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // 다이어리 엔터티 반환
