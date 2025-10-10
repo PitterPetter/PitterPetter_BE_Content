@@ -39,13 +39,12 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<CommentIdResponse> createComment(
-            @Parameter(description = "토큰값", hidden = true) @CurrentUser String token,
             @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
             @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
             @Parameter(description = "다이어리 ID", required = true) @PathVariable Long diaryId,
             @Parameter(description = "댓글 생성 요청 정보", required = true) @Valid @RequestBody CreateCommentRequest request
     ) {
-        CommentIdResponse response = createCommentUseCase.execute(token, userId, coupleId, diaryId, request);
+        CommentIdResponse response = createCommentUseCase.execute(userId, coupleId, diaryId, request);
         return BaseResponse.success(response);
     }
 

@@ -5,19 +5,20 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.User
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.http.HttpHeaders;
 
 @FeignClient(
         name = "authClient",
-        url = "http://loventure-prod-auth-service.loventure-app.svc.cluster.local"
+        url = "${auth.service.url:http://localhost:8080}"  // 로컬에서는 Mock 서버 사용
 )
 public interface AuthClient {
 
+    /**
+     * 내부 MSA 통신: userId로 사용자 이름 조회
+     * 
+     * Authorization 헤더 불필요 (이미 Content 서비스에서 JWT 인증 완료)
+     * 내부 서비스간 통신은 신뢰할 수 있으므로 userId만 전달
+     */
     @GetMapping("/internal/users/{userId}")
-    UserProfileResponse getUserById(
-        @PathVariable("userId") Long userId,
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization
-    );
+    UserProfileResponse getUserById(@PathVariable("userId") Long userId);
 
 }
