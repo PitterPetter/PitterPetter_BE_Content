@@ -1,5 +1,6 @@
 package PitterPatter.loventure.content.domain.diary.application.service;
 
+import PitterPatter.loventure.content.domain.image.domain.entity.ImageType;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
@@ -29,10 +30,11 @@ public class ImageStorageService {
      * 이미지를 GCS에 업로드하고 파일명을 반환합니다.
      *
      * @param file 업로드할 이미지 파일
-     * @param diaryId 다이어리 ID (파일명 구분용)
-     * @return 저장된 파일명 (예: "diary-123-uuid.jpg")
+     * @param imageType 이미지 타입 (DIARY, PROFILE 등)
+     * @param referenceId 참조 ID (다이어리 ID 등)
+     * @return 저장된 파일명 (예: "images/diary-123-uuid.jpg")
      */
-    public String uploadImage(MultipartFile file, Long diaryId) throws IOException {
+    public String uploadImage(MultipartFile file, ImageType imageType, Long referenceId) throws IOException {
         // 원본 파일명에서 확장자 추출
         String originalFilename = file.getOriginalFilename();
         String extension = "";
@@ -40,14 +42,16 @@ public class ImageStorageService {
             extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
 
-        // 고유한 파일명 생성: diary-{diaryId}-{uuid}.{extension}
-        // TODO: url 확인하기
-        String fileName = String.format("diary-%d-%s%s", 
-                diaryId, 
+        // 고유한 파일명 생성: images/{type}-{referenceId}-{uuid}.{extension}
+        // GCS에서는 / 로 폴더처럼 구조화할 수 있음
+        String typePrefix = imageType.name().toLowerCase();
+        String fileName = String.format("images/%s-%d-%s%s", 
+                typePrefix,
+                referenceId != null ? referenceId : 0,
                 UUID.randomUUID().toString(), 
                 extension);
 
-        log.info("Uploading image to GCS: bucket={}, fileName={}", bucketName, fileName);
+        log.info("Uploading image to GCS: bucket={}, fileName={}, type={}", bucketName, fileName, imageType);
 
         // GCS에 업로드
         BlobId blobId = BlobId.of(bucketName, fileName);
