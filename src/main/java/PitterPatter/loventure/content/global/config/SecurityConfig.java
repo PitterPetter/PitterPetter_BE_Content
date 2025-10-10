@@ -27,7 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/test/user", "/test/couple", "/test/user-couple").authenticated() // 테스트 엔드포인트는 JWT 인증 필요
                         .requestMatchers("/docs/**", "/v3/api-docs/**", "/swagger-ui/**", "/actuator/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger UI 완전 허용
-                        .requestMatchers("/api/diaries/swagger-ui/**", "/api/diaries/swagger-ui.html", "/api/diaries/v3/api-docs/**").permitAll() // 다이어리 API 문서 허용
+                        .requestMatchers("/api/diaries/swagger-ui.html", "/api/diaries/swagger-ui/**", "/api/diaries/v3/api-docs/**").permitAll() // 다이어리 API 문서 및 스웨거 리소스 허용
                         .requestMatchers("/api/diaries/**").authenticated() // 다이어리 API는 JWT 인증 필요
                         .anyRequest().authenticated()
                 )
