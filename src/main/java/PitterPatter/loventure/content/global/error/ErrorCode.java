@@ -37,6 +37,10 @@ public enum ErrorCode {
     COMMENT401("COMMENT401", "댓글 수정/삭제 권한이 없습니다", HttpStatus.UNAUTHORIZED),
     COMMENT404("COMMENT404", "댓글을 찾을 수 없습니다", HttpStatus.NOT_FOUND),
     
+    // ===== 이미지 관련 에러 코드 =====
+    IMAGE404("IMAGE404", "이미지를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
+    IMAGE400("IMAGE400", "이미지 업로드에 실패했습니다", HttpStatus.BAD_REQUEST),
+    
     // ===== Auth 서비스 통신 관련 에러 코드 =====
     AUTH_SERVICE_UNAVAILABLE("AUTH500", "Auth 서비스와 통신할 수 없습니다", HttpStatus.SERVICE_UNAVAILABLE),
     USER_NOT_FOUND("AUTH404", "해당 사용자를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
