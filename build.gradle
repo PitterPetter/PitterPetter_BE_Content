@@ -59,6 +59,9 @@ dependencies {
 
 	// TsId
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.0'
+
+	// Google Cloud Storage
+	implementation 'com.google.cloud:google-cloud-storage:2.36.1'
 }
 
 tasks.named('test') {

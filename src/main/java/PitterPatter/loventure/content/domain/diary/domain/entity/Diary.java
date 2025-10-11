@@ -1,13 +1,8 @@
 package PitterPatter.loventure.content.domain.diary.domain.entity;
 
+import PitterPatter.loventure.content.domain.image.domain.entity.Image;
 import PitterPatter.loventure.content.global.common.BaseTimeEntity;
-import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +18,6 @@ public class Diary extends BaseTimeEntity {
 
     // pk: diary_id
     @Id @Tsid
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "diary_id")
     private Long diaryId;
 
@@ -53,8 +47,27 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    // 이미지 (선택)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    /**
+     * 이미지 연결
+     */
+    public void updateImage(Image image) {
+        this.image = image;
+    }
+
+    /**
+     * 이미지 제거
+     */
+    public void removeImage() {
+        this.image = null;
     }
 }

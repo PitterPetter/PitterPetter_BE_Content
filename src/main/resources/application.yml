@@ -11,3 +11,11 @@ spring:
     name: content-service
   profiles:
     active: prod
+  jpa:
+    open-in-view: false
+
+# Google Cloud Storage 설정
+gcs:
+  bucket-name: ${GCS_BUCKET_NAME:pit_bucket}
+  credentials-path: ${GCS_CREDENTIALS_PATH:/etc/gcp/key.json}
+  project-id: ${GCS_PROJECT_ID:pitterpetter}

@@ -6,7 +6,7 @@ import PitterPatter.loventure.content.domain.comment.domain.entity.Comment;
 import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.domain.diary.application.service.UserLookupService;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateCommentUseCase {
 
     private final CommentService commentService;
-    private final DiaryServiec diaryService;
+    private final DiaryService diaryService;
     private final UserLookupService userLookupService;
 
     @Transactional
@@ -29,7 +29,7 @@ public class CreateCommentUseCase {
             throw new CustomException(ErrorCode.DIARY402);
         }
 
-        // userId로 사용자 이름 조회 (이미 JWT 인증 완료된 상태)
+        // 사용자 이름 조회
         String authorName = userLookupService.getUserName(userId);
 
         // 댓글 생성
