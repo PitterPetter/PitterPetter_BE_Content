@@ -19,8 +19,8 @@
 ## 📂 프로젝트 구조
 
 ```
-content-service/
-├─ src/main/java/com/loventure/content
+diary-service/
+├─ src/main/java/com/loventure/diary
 │  ├─ blog/            # 블로그(게시글 CRUD)
 │  ├─ mypage/          # 마이페이지 CRUD
 │  ├─ common/          # 공용 예외/유틸

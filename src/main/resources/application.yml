@@ -1,11 +1,21 @@
 spring:
-  profiles:
-    default: dev
   config:
-    import:
-      - optional:file:.env
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://config-server.config-server.svc.cluster.local:80
+      name: content-service
+      label: main
+      fail-fast: true
+  application:
+    name: content-service
+  profiles:
+    active: prod
+  jpa:
+    open-in-view: false
 
-# 운영 환경에서는 테스트 엔드포인트 비활성화
-app:
-  test-endpoints:
-    enabled: false
+# Google Cloud Storage 설정
+gcs:
+  bucket-name: ${GCS_BUCKET_NAME:pit_bucket}
+  credentials-path: ${GCS_CREDENTIALS_PATH:/etc/gcp/key.json}
+  project-id: ${GCS_PROJECT_ID:pitterpetter}

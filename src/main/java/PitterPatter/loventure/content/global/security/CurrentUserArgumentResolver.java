@@ -1,5 +1,7 @@
 package PitterPatter.loventure.content.global.security;
 
+import PitterPatter.loventure.content.global.annotation.CurrentCouple;
+import PitterPatter.loventure.content.global.annotation.CurrentUser;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -33,7 +35,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(CurrentUser.class) || 
+        return parameter.hasParameterAnnotation(CurrentUser.class) ||
                parameter.hasParameterAnnotation(CurrentCouple.class);
     }
 
@@ -73,9 +75,9 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
                 return tokenProvider.extractCoupleId(authHeader);
             }
         } else if (parameterType == String.class) {
-            // String 타입이면 토큰 자체 반환 (Bearer 제거)
-            // 예: @CurrentUser String token -> "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-            return authHeader.substring(7); // "Bearer " 제거
+            // String 타입이면 토큰 자체 반환 (Bearer 포함)
+            // 예: @CurrentUser String token -> "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            return authHeader; // "Bearer " 포함
         }
         
         // 지원하지 않는 타입이면 예외 발생
