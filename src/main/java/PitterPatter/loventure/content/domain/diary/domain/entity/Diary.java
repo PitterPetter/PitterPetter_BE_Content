@@ -16,9 +16,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Diary extends BaseTimeEntity {
 
-    // pk: diary_id TODO: TsId 쓸 때 delete GeneratedValue
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // pk: diary_id
+    @Id @Tsid
     @Column(name = "diary_id")
     private Long diaryId;
 
@@ -33,8 +32,8 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "author_name", nullable = false, length = 50)
     private String authorName;
 
-    // 선택: course_id (없을 수 있음)
-    @Column(name = "course_id")
+    // 필수: course_id
+    @Column(name = "course_id", nullable = false)
     private Long courseId;
 
     // 평점: 소수점(예: 4.8). 금액/정밀도가 중요한 도메인이 아니므로 Double로 저장

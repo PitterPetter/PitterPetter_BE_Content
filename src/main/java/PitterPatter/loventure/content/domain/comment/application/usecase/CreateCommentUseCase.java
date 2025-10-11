@@ -22,7 +22,7 @@ public class CreateCommentUseCase {
     private final UserLookupService userLookupService;
 
     @Transactional
-    public CommentIdResponse execute(String token, Long userId, Long coupleId, Long diaryId, CreateCommentRequest request) {
+    public CommentIdResponse execute(Long userId, Long coupleId, Long diaryId, CreateCommentRequest request) {
         // 다이어리 존재 여부 확인 및 커플 권한 확인
         Diary diary = diaryService.findByDiaryId(diaryId);
         if (!diary.getCoupleId().equals(coupleId)) {

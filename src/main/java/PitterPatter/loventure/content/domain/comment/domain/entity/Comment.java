@@ -1,6 +1,7 @@
 package PitterPatter.loventure.content.domain.comment.domain.entity;
 
 import PitterPatter.loventure.content.global.common.BaseTimeEntity;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Comment extends BaseTimeEntity {
 
-    @Id
+    @Id @Tsid
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long commentId;
