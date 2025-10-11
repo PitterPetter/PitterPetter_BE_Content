@@ -12,7 +12,6 @@ import PitterPatter.loventure.content.global.infra.gcs.GcsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -52,7 +51,6 @@ public class ImageService {
      * @param referenceId 참조 ID (다이어리 ID 등)
      * @return ImageUploadResponse (imageId, presignedUrl, expiresIn)
      */
-    @Transactional
     public ImageUploadResponse createImageMetadata(
             ImageMetadataRequest request,
             ImageType imageType,
@@ -113,7 +111,6 @@ public class ImageService {
      * 
      * @param imageId 이미지 ID
      */
-    @Transactional
     public void markAsUploaded(Long imageId) {
         log.info("Marking image as uploaded: imageId={}", imageId);
         
@@ -130,7 +127,6 @@ public class ImageService {
      * 
      * @param imageId 이미지 ID
      */
-    @Transactional
     public void markAsFailed(Long imageId) {
         log.info("Marking image as failed: imageId={}", imageId);
         
@@ -147,7 +143,6 @@ public class ImageService {
      * 
      * @param imageId 이미지 ID
      */
-    @Transactional
     public void deleteImage(Long imageId) {
         log.info("Deleting image: imageId={}", imageId);
         
@@ -169,7 +164,6 @@ public class ImageService {
      * @param imageId 이미지 ID
      * @return presignedURL (UPLOADED 상태인 경우만)
      */
-    @Transactional(readOnly = true)
     public String generateDownloadUrl(Long imageId) {
         Image image = imageRepository.findById(imageId)
             .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
@@ -192,7 +186,6 @@ public class ImageService {
      * @param imageId 이미지 ID
      * @return Image 엔터티
      */
-    @Transactional(readOnly = true)
     public Image getImage(Long imageId) {
         return imageRepository.findById(imageId)
             .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
