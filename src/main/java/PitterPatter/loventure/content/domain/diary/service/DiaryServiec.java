@@ -7,19 +7,23 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.application.dto.response.PageInfo;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.domain.repository.DiaryRepository;
+import PitterPatter.loventure.content.domain.image.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DiaryServiec {
 
     private final DiaryRepository diaryRepository;
+    private final ImageService imageService;
 
     public Diary saveDiary(Long userId, String author, Long coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
@@ -68,10 +72,21 @@ public class DiaryServiec {
     }
     
     private DiarySummary convertToDiarySummary(Diary diary) {
-        // content에서 excerpt 생성 (첫 100자만)
+        // content에서 excerpt 생성 (첫 32자만)
         String excerpt = diary.getContent().length() > 32
                 ? diary.getContent().substring(0, 32) + "..."
                 : diary.getContent();
+
+        // 이미지 다운로드 URL 생성 (UPLOADED 상태인 경우만)
+        String imageUrl = null;
+        Long imageId = null;
+        String imageStatus = null;
+        
+        if (diary.getImage() != null) {
+            imageId = diary.getImage().getId();
+            imageStatus = diary.getImage().getStatus().name();
+            imageUrl = imageService.generateDownloadUrl(imageId);
+        }
 
         return DiarySummary.builder()
                 .diaryId(diary.getDiaryId())
@@ -79,6 +94,10 @@ public class DiaryServiec {
                 .excerpt(excerpt)
                 .updatedAt(diary.getUpdatedAt())
                 .likeCount(0) // TODO: 좋아요 기능 구현 시 실제 값으로 변경
+                .imageId(imageId)
+                .imageUrl(imageUrl)
+                .imageStatus(imageStatus)
+                .imageExpiresIn(imageUrl != null ? 3600 : null) // 1시간
                 .build();
     }
 
