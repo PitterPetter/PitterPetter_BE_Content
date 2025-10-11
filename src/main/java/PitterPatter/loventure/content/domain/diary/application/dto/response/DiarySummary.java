@@ -17,6 +17,16 @@ public record DiarySummary(
         @Schema(description = "수정일시", example = "2025-09-05T00:00:00Z")
         LocalDateTime updatedAt,
         @Schema(description = "좋아요 수", example = "8")
-        int likeCount
+        int likeCount,
+        
+        // 이미지 관련 필드
+        @Schema(description = "이미지 ID (있을 경우)")
+        Long imageId,
+        @Schema(description = "이미지 다운로드 URL (UPLOADED 상태인 경우)")
+        String imageUrl,
+        @Schema(description = "이미지 상태 (PENDING, UPLOADED, FAILED)")
+        String imageStatus,
+        @Schema(description = "이미지 URL 만료 시간 (초)")
+        Integer imageExpiresIn
 ) {
 }
