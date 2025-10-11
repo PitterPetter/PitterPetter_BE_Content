@@ -6,7 +6,7 @@ import PitterPatter.loventure.content.domain.comment.domain.entity.Comment;
 import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.domain.diary.application.service.UserLookupService;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateCommentUseCase {
 
     private final CommentService commentService;
-    private final DiaryServiec diaryService;
+    private final DiaryService diaryService;
     private final UserLookupService userLookupService;
 
     @Transactional
@@ -30,7 +30,7 @@ public class CreateCommentUseCase {
         }
 
         // 사용자 이름 조회
-        String authorName = userLookupService.getUserName(userId, token);
+        String authorName = userLookupService.getUserName(userId);
 
         // 댓글 생성
         Comment comment = commentService.saveComment(diaryId, userId, authorName, request);

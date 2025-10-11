@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DiaryServiec {
+public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final ImageService imageService;

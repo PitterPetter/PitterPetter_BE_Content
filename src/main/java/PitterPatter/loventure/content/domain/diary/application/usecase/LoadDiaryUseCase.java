@@ -5,7 +5,7 @@ import PitterPatter.loventure.content.domain.comment.domain.entity.Comment;
 import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.domain.image.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LoadDiaryUseCase {
 
-    private final DiaryServiec diaryServiec;
+    private final DiaryService diaryService;
     private final CommentService commentService;
     private final ImageService imageService;
 
@@ -30,7 +30,7 @@ public class LoadDiaryUseCase {
     public DiaryResponse execute(Long userId, Long coupleId, Long diaryId) {
         log.info("Loading diary: diaryId={}, userId={}, coupleId={}", diaryId, userId, coupleId);
         
-        Diary diary = diaryServiec.findByDiaryId(diaryId);
+        Diary diary = diaryService.findByDiaryId(diaryId);
 
         // 다이어리 작성 커플과 요청 커플이 다르면 예외
         if(!diary.getCoupleId().equals(coupleId)) {

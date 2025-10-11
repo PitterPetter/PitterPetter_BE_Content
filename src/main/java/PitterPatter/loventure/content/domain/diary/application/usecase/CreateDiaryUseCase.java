@@ -4,7 +4,7 @@ import PitterPatter.loventure.content.domain.diary.application.dto.request.Creat
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.application.service.UserLookupService;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.domain.image.application.dto.response.ImageUploadResponse;
 import PitterPatter.loventure.content.domain.image.domain.ImageType;
 import PitterPatter.loventure.content.domain.image.domain.entity.Image;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CreateDiaryUseCase {
 
-    private final DiaryServiec diaryServiec;
+    private final DiaryService diaryService;
     private final UserLookupService userLookupService;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
@@ -33,7 +33,7 @@ public class CreateDiaryUseCase {
         String author = userLookupService.getUserName(userId);
 
         // 1. Diary entity 생성 (이미지 없이)
-        Diary diary = diaryServiec.saveDiary(userId, author, coupleId, request);
+        Diary diary = diaryService.saveDiary(userId, author, coupleId, request);
 
         // 2. 이미지 처리
         ImageUploadResponse imageUpload = null;

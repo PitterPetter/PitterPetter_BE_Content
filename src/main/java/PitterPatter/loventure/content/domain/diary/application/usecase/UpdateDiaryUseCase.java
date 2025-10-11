@@ -3,7 +3,7 @@ package PitterPatter.loventure.content.domain.diary.application.usecase;
 import PitterPatter.loventure.content.domain.diary.application.dto.request.UpdateDiaryRequest;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiaryResponse;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.domain.image.application.dto.response.ImageUploadResponse;
 import PitterPatter.loventure.content.domain.image.domain.ImageType;
 import PitterPatter.loventure.content.domain.image.domain.entity.Image;
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UpdateDiaryUseCase {
 
-    private final DiaryServiec diaryServiec;
+    private final DiaryService diaryService;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
 
@@ -50,7 +50,7 @@ public class UpdateDiaryUseCase {
             diaryId, userId, request.image() != null, request.removeImage());
         
         // 다이어리 조회
-        Diary diary = diaryServiec.findByDiaryId(diaryId);
+        Diary diary = diaryService.findByDiaryId(diaryId);
 
         // 사용자 권한 검증: 다이어리 작성자만 수정 가능
         if(!diary.getUserId().equals(userId)) {
@@ -65,7 +65,7 @@ public class UpdateDiaryUseCase {
         }
 
         // 다이어리 내용 수정
-        DiaryResponse response = diaryServiec.updateDiary(diary, request.title(), request.content());
+        DiaryResponse response = diaryService.updateDiary(diary, request.title(), request.content());
         
         // 이미지 처리
         ImageUploadResponse imageUpload = null;

@@ -2,7 +2,7 @@ package PitterPatter.loventure.content.domain.diary.application.usecase;
 
 import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.service.DiaryServiec;
+import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.domain.image.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeleteDiaryUseCase {
 
-    private final DiaryServiec diaryServiec;
+    private final DiaryService diaryService;
     private final CommentService commentService;
     private final ImageService imageService;
 
@@ -25,7 +25,7 @@ public class DeleteDiaryUseCase {
         log.info("Deleting diary: diaryId={}, userId={}, coupleId={}", diaryId, userId, coupleId);
         
         // 다이어리 엔터티 받기
-        Diary diary = diaryServiec.findByDiaryId(diaryId);
+        Diary diary = diaryService.findByDiaryId(diaryId);
 
         // 다이어리 작성자와 커플이 요청자와 일치하는지 유효성 검사
         if(!diary.getUserId().equals(userId)) {
@@ -48,7 +48,7 @@ public class DeleteDiaryUseCase {
         commentService.deleteCommentsByDiaryId(diaryId);
 
         // 다이어리 삭제
-        diaryServiec.deleteDiary(diary);
+        diaryService.deleteDiary(diary);
         
         log.info("Diary deleted successfully: diaryId={}", diaryId);
         return null;
