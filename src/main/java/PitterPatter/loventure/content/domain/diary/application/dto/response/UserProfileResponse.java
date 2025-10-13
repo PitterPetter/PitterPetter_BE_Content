@@ -8,7 +8,7 @@ package PitterPatter.loventure.content.domain.diary.application.dto.response;
  * - name: 사용자 이름
  */
 public record UserProfileResponse(
-        String userId,  // String으로 변경
+        String userId,
         String name
 ) {
 }
