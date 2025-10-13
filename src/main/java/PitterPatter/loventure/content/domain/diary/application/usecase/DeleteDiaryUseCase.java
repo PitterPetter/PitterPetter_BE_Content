@@ -38,8 +38,8 @@ public class DeleteDiaryUseCase {
         // 이미지 삭제 (GCS + DB)
         if (diary.getImage() != null) {
             log.info("Deleting image with diary: diaryId={}, imageId={}", 
-                diaryId, diary.getImage().getId());
-            Long imageIdToDelete = diary.getImage().getId();
+                diaryId, diary.getImage().getImageId());
+            Long imageIdToDelete = diary.getImage().getImageId();
             diary.removeImage();  // FK 제거
             imageService.deleteImage(imageIdToDelete);
         }

@@ -46,9 +46,9 @@ public class LoadDiaryUseCase {
         // 이미지 다운로드 URL 생성 (UPLOADED 상태인 경우만)
         String imageUrl = null;
         if (diary.getImage() != null) {
-            imageUrl = imageService.generateDownloadUrl(diary.getImage().getId());
+            imageUrl = imageService.generateDownloadUrl(diary.getImage().getImageId());
             log.debug("Generated download URL for diary: diaryId={}, imageId={}, hasUrl={}", 
-                diaryId, diary.getImage().getId(), imageUrl != null);
+                diaryId, diary.getImage().getImageId(), imageUrl != null);
         }
 
         return DiaryResponse.createWithImageUrl(diary, imageUrl, commentResponses);

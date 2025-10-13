@@ -74,8 +74,8 @@ public class UpdateDiaryUseCase {
         if (Boolean.TRUE.equals(request.removeImage())) {
             if (diary.getImage() != null) {
                 log.info("Removing image from diary: diaryId={}, imageId={}", 
-                    diaryId, diary.getImage().getId());
-                Long imageIdToDelete = diary.getImage().getId();
+                    diaryId, diary.getImage().getImageId());
+                Long imageIdToDelete = diary.getImage().getImageId();
                 diary.removeImage();
                 imageService.deleteImage(imageIdToDelete);
             }
@@ -85,8 +85,8 @@ public class UpdateDiaryUseCase {
             // 기존 이미지 삭제 (있으면)
             if (diary.getImage() != null) {
                 log.info("Replacing image for diary: diaryId={}, oldImageId={}", 
-                    diaryId, diary.getImage().getId());
-                Long oldImageId = diary.getImage().getId();
+                    diaryId, diary.getImage().getImageId());
+                Long oldImageId = diary.getImage().getImageId();
                 diary.removeImage();
                 imageService.deleteImage(oldImageId);
             }

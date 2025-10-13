@@ -83,7 +83,7 @@ public class DiaryService {
         String imageStatus = null;
         
         if (diary.getImage() != null) {
-            imageId = diary.getImage().getId();
+            imageId = diary.getImage().getImageId();
             imageStatus = diary.getImage().getStatus().name();
             imageUrl = imageService.generateDownloadUrl(imageId);
         }

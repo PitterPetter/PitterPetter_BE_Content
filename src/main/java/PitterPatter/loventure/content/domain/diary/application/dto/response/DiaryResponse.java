@@ -55,7 +55,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(List.of())
-                .imageId(diary.getImage() != null ? diary.getImage().getId() : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .build();
     }
@@ -70,7 +70,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(comments)
-                .imageId(diary.getImage() != null ? diary.getImage().getId() : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .build();
     }
@@ -88,7 +88,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(List.of())
-                .imageId(diary.getImage() != null ? diary.getImage().getId() : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .imageUpload(imageUpload)
                 .build();
@@ -107,7 +107,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(comments)
-                .imageId(diary.getImage() != null ? diary.getImage().getId() : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageUrl(imageUrl)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .imageExpiresIn(imageUrl != null ? 3600 : null) // 1시간

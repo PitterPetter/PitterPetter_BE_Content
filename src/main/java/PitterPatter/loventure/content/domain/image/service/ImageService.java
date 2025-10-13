@@ -90,7 +90,7 @@ public class ImageService {
         
         imageRepository.save(image);
         
-        log.info("Image metadata saved: imageId={}, objectPath={}", image.getId(), objectPath);
+        log.info("Image metadata saved: imageId={}, objectPath={}", image.getImageId(), objectPath);
         
         // 6. Presigned URL 생성 (5분)
         String presignedUrl = gcsService.generateUploadUrl(
@@ -100,7 +100,7 @@ public class ImageService {
         );
         
         return ImageUploadResponse.of(
-            image.getId(), 
+            image.getImageId(),
             presignedUrl, 
             UPLOAD_EXPIRATION_MINUTES * 60
         );

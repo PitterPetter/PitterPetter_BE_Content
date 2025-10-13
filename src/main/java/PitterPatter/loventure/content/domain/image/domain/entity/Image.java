@@ -21,58 +21,60 @@ import lombok.NoArgsConstructor;
 public class Image extends BaseTimeEntity {
     
     @Id @Tsid
-    private Long id;
+    @Column(name = "image_id")
+    private Long imageId;
     
     /**
      * 고유 식별자 (UUID)
      * GCS 객체 경로 생성에 사용
      */
-    @Column(nullable = false, unique = true)
+    @Column(name = "uuid", nullable = false, unique = true)
     private String uuid;
     
     /**
      * GCS 객체 경로
      * 형식: images/diary/{uuid}.{extension}
      */
-    @Column(nullable = false)
+    @Column(name = "object_path", nullable = false)
     private String objectPath;
     
     /**
      * 이미지 타입 (DIARY, PROFILE 등)
      */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "image_type", nullable = false)
     private ImageType imageType;
     
     /**
      * 참조 ID (다이어리 ID 등)
      * imageType에 따라 참조하는 엔터티가 다름
      */
+    @Column(name = "reference_id")
     private Long referenceId;
     
     /**
      * 업로드 상태 (PENDING, UPLOADED, FAILED)
      */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private ImageStatus status;
     
     /**
      * 파일 Content-Type (image/jpeg, image/png 등)
      */
-    @Column(nullable = false)
+    @Column(name = "content_type", nullable = false)
     private String contentType;
     
     /**
      * 파일 크기 (bytes)
      */
-    @Column(nullable = false)
+    @Column(name = "size_bytes", nullable = false)
     private Long sizeBytes;
     
     /**
      * 원본 파일명
      */
-    @Column(nullable = false)
+    @Column(name = "original_file_name", nullable = false)
     private String originalFileName;
     
     @Builder
