@@ -70,7 +70,7 @@ public class UpdateDiaryUseCase {
         // 이미지 처리
         ImageUploadResponse imageUpload = null;
         
-        // 이미지 삭제 요청
+        // 이미지 삭제 요청 removeImage가 true면
         if (Boolean.TRUE.equals(request.removeImage())) {
             if (diary.getImage() != null) {
                 log.info("Removing image from diary: diaryId={}, imageId={}", 
