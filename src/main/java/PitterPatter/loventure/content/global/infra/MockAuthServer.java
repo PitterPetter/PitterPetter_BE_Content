@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 로컬 개발 환경에서 Auth 서비스 없이 테스트하기 위한 Mock REST API
  * 
- * /internal/users/{userId} 엔드포인트를 제공하여 실제 Auth 서비스처럼 동작합니다.
+ * /internal/user/{userId} 엔드포인트를 제공하여 실제 Auth 서비스처럼 동작합니다.
  * 
  * 내부 MSA 통신:
  * - Authorization 헤더 불필요 (이미 Content 서비스에서 JWT 인증 완료)
@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/internal/users")
+@RequestMapping("/internal/user")  // 단수형으로 변경
 @ConditionalOnProperty(name = "mock.auth.enabled", havingValue = "true", matchIfMissing = true)
 public class MockAuthServer {
 
     @GetMapping("/{userId}")
     public UserProfileResponse getUserById(@PathVariable Long userId) {
         
-        log.info("🧪 [Mock Auth Server] GET /internal/users/{} 호출됨 (토큰 불필요)", userId);
+        log.info("🧪 [Mock Auth Server] GET /internal/user/{} 호출됨 (토큰 불필요)", userId);
         
         // userId에 따라 다른 Mock 데이터 반환 (테스트용)
         String mockName = switch (userId.intValue() % 5) {
@@ -42,7 +42,7 @@ public class MockAuthServer {
         
         log.info("🧪 [Mock Auth Server] 반환 데이터 - userId: {}, name: {}", userId, mockName);
         
-        return new UserProfileResponse(userId, mockName);
+        return new UserProfileResponse(userId.toString(), mockName);  // String으로 변환
     }
 }
 
