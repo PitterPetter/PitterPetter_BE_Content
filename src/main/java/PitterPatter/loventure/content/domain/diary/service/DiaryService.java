@@ -50,9 +50,9 @@ public class DiaryService {
         Pageable pageable = PageRequest.of(page, size);
         
         // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회
-        Page<Diary> contentPage = diaryRepository.findByCoupleIdAndUserIdOrderByCreatedAtDesc(coupleId, userId, pageable);
+        Page<Diary> contentPage = diaryRepository.findByCoupleIdOrderByCreatedAtDesc(coupleId, pageable);
 
-        // Content 엔티티를 DiarySummary로 변환
+        // Diary 엔티티를 DiarySummary로 변환
         var diarySummaries = contentPage.getContent().stream()
                 .map(this::convertToDiarySummary)
                 .toList();
@@ -81,7 +81,8 @@ public class DiaryService {
         String imageUrl = null;
         Long imageId = null;
         String imageStatus = null;
-        
+
+        // image가 있으면 image 정보 및 다운로드 presignedURL 생성
         if (diary.getImage() != null) {
             imageId = diary.getImage().getImageId();
             imageStatus = diary.getImage().getStatus().name();
