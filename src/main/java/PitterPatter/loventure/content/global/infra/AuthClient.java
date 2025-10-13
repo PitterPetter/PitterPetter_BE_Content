@@ -19,7 +19,7 @@ public interface AuthClient {
      * Authorization 헤더 불필요 (이미 Content 서비스에서 JWT 인증 완료)
      * 내부 서비스간 통신은 신뢰할 수 있으므로 userId만 전달
      */
-    @GetMapping("/internal/users/{userId}")
+    @GetMapping("/internal/user/{userId}")
     UserProfileResponse getUserById(
             @PathVariable("userId") Long userId
     );
