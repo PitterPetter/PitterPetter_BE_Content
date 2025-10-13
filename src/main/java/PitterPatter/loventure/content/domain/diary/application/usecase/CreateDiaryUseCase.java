@@ -26,7 +26,7 @@ public class CreateDiaryUseCase {
     private final ImageRepository imageRepository;
 
     @Transactional
-    public DiaryResponse execute(String token, Long userId, Long coupleId, CreateDiaryRequest request) {
+    public DiaryResponse execute(Long userId, Long coupleId, CreateDiaryRequest request) {
         log.info("Creating diary: userId={}, coupleId={}, hasImage={}", 
             userId, coupleId, request.image() != null);
 
