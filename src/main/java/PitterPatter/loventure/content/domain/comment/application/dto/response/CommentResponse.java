@@ -22,7 +22,7 @@ public record CommentResponse(
         @Schema(description = "수정일시")
         LocalDateTime updatedAt
 ) {
-    public static CommentResponse from(Comment comment) {
+    public static CommentResponse create(Comment comment) {
         return CommentResponse.builder()
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())

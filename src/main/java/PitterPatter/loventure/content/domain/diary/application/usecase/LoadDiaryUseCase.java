@@ -40,7 +40,7 @@ public class LoadDiaryUseCase {
         // 댓글 목록 조회
         List<Comment> comments = commentService.findByDiaryId(diaryId);
         List<CommentResponse> commentResponses = comments.stream()
-                .map(CommentResponse::from)
+                .map(CommentResponse::create)
                 .collect(Collectors.toList());
 
         // 이미지 다운로드 URL 생성 (UPLOADED 상태인 경우만)
