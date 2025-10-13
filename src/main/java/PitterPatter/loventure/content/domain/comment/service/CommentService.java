@@ -36,7 +36,7 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public List<Comment> findByDiaryId(Long diaryId) {
-        return commentRepository.findByDiaryIdOrderByCreatedAtAsc(diaryId);
+        return commentRepository.findByDiaryIdOrderByUpdatedAtAsc(diaryId);
     }
 
     @Transactional
