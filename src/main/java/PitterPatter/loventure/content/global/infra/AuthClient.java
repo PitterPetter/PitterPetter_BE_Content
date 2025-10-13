@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(
         name = "authClient",
         //url = "${auth.service.url:http://localhost:8080}"  // 로컬: Mock, 배포: Config Server에서 K8s URL
-        url = "http://loventure-prod-auth-service.loventure-app.svc.cluster.local" // 배포
+        url = "http://loventure-prod-auth-service.loventure-app.svc.cluster.local:8081" // 배포
 )
 public interface AuthClient {
 
