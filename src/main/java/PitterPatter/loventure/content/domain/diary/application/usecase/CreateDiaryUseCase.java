@@ -41,7 +41,7 @@ public class CreateDiaryUseCase {
             log.info("Processing image for diary: diaryId={}", diary.getDiaryId());
             
             try {
-                // 2-1. Image 메타데이터 생성 및 presignedURL 발급
+                // 2-1. Image 메타데이터 생성, 이미지 엔터티 생성 및 presignedURL 발급
                 imageUpload = imageService.createImageMetadata(
                     request.image(),
                     ImageType.DIARY,
