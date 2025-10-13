@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByDiaryIdOrderByCreatedAtAsc(Long diaryId);
+    List<Comment> findByDiaryIdOrderByUpdatedAtAsc(Long diaryId);
     void deleteByDiaryId(Long diaryId);
 }
 
