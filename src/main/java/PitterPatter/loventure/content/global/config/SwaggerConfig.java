@@ -37,7 +37,7 @@ public class SwaggerConfig {
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
-                                .description("JWT 토큰을 입력하세요. 토큰 생성은 /test/token 엔드포인트를 사용하세요.")))
+                                .description("JWT 인증 토큰을 입력하세요.")))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
 }
