@@ -1,4 +1,4 @@
-package PitterPatter.loventure.content.domain.image.domain;
+package PitterPatter.loventure.content.domain.image.domain.entity;
 
 /**
  * 이미지 업로드 상태를 정의하는 Enum
