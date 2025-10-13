@@ -2,8 +2,8 @@ package PitterPatter.loventure.content.domain.image.service;
 
 import PitterPatter.loventure.content.domain.image.application.dto.request.ImageMetadataRequest;
 import PitterPatter.loventure.content.domain.image.application.dto.response.ImageUploadResponse;
-import PitterPatter.loventure.content.domain.image.domain.ImageStatus;
-import PitterPatter.loventure.content.domain.image.domain.ImageType;
+import PitterPatter.loventure.content.domain.image.domain.entity.ImageStatus;
+import PitterPatter.loventure.content.domain.image.domain.entity.ImageType;
 import PitterPatter.loventure.content.domain.image.domain.entity.Image;
 import PitterPatter.loventure.content.domain.image.domain.repository.ImageRepository;
 import PitterPatter.loventure.content.global.error.CustomException;

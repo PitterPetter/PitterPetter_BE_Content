@@ -1,6 +1,6 @@
 package PitterPatter.loventure.content.domain.image.domain.repository;
 
-import PitterPatter.loventure.content.domain.image.domain.ImageStatus;
+import PitterPatter.loventure.content.domain.image.domain.entity.ImageStatus;
 import PitterPatter.loventure.content.domain.image.domain.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

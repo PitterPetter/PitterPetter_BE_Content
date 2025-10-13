@@ -5,7 +5,7 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.service.DiaryService;
 import PitterPatter.loventure.content.domain.image.application.dto.response.ImageUploadResponse;
-import PitterPatter.loventure.content.domain.image.domain.ImageType;
+import PitterPatter.loventure.content.domain.image.domain.entity.ImageType;
 import PitterPatter.loventure.content.domain.image.domain.entity.Image;
 import PitterPatter.loventure.content.domain.image.domain.repository.ImageRepository;
 import PitterPatter.loventure.content.domain.image.service.ImageService;

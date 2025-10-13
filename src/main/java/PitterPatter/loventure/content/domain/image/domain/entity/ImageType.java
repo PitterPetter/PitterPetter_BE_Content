@@ -1,4 +1,4 @@
-package PitterPatter.loventure.content.domain.image.domain;
+package PitterPatter.loventure.content.domain.image.domain.entity;
 
 /**
  * 이미지 타입을 정의하는 Enum

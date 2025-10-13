@@ -23,14 +23,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/test/token").permitAll() // JWT 토큰 생성 엔드포인트는 인증 불필요
-                        .requestMatchers("/test/user", "/test/couple", "/test/user-couple").authenticated() // 테스트 엔드포인트는 JWT 인증 필요
-                        .requestMatchers("/internal/user/**").permitAll() // Mock Auth Server (로컬 테스트용)
-                        .requestMatchers("/docs/**", "/v3/api-docs/**", "/swagger-ui/**", "/actuator/**").permitAll()
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger UI 완전 허용
+                        // Swagger UI 및 API 문서 허용
+                        .requestMatchers("/docs/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/api/diaries/swagger-ui/**", "/api/diaries/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/diaries/swagger-ui.html", "/api/diaries/swagger-ui/**", "/api/diaries/v3/api-docs/**").permitAll() // 다이어리 API 문서 및 스웨거 리소스 허용
-                        .requestMatchers("/api/diaries/**").authenticated() // 다이어리 API는 JWT 인증 필요
-                        .anyRequest().authenticated()
+                        
+                        // Actuator Health Check 허용
+                        .requestMatchers("/actuator/**").permitAll()
+                        
+                        // 배포 후 테스트를 위해 임시로 모든 API 허용 (추후 인증 활성화 필요)
+                        // TODO: 테스트 이후 인증 활성화
+                        .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(tokenProvider.getJwtDecoder())));
         return http.build();
