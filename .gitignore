@@ -45,3 +45,8 @@ src/main/resources/application.yml
 .DS_Store
 src/main/resources/.env.properties
 .env
+
+### Local Test Files ###
+src/main/java/PitterPatter/loventure/content/global/config/TestController.java
+src/main/java/PitterPatter/loventure/content/global/infra/MockAuthServer.java
+src/main/java/PitterPatter/loventure/content/global/security/TestTokenGenerator.java
