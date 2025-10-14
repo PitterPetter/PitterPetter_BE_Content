@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface ContentRepository extends JpaRepository<Diary, Long> {
+public interface DiaryRepository extends JpaRepository<Diary, String> {
     
     // 커플의 전체 다이어리 개수 조회
-    long countByCoupleId(Long coupleId);
+    long countByCoupleId(String coupleId);
     
-    // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회
-    @Query("SELECT c FROM Diary c WHERE c.coupleId = :coupleId and c.userId = :userId ORDER BY c.createdAt DESC")
-    Page<Diary> findByCoupleIdAndUserIdOrderByCreatedAtDesc(@Param("coupleId") Long coupleId, @Param("userId") Long userId, Pageable pageable);
+    // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회 (Image도 함께 fetch)(coupleId로 검증)
+    @Query("SELECT d FROM Diary d LEFT JOIN FETCH d.image WHERE d.coupleId = :coupleId ORDER BY d.createdAt DESC")
+    Page<Diary> findByCoupleIdOrderByCreatedAtDesc(@Param("coupleId") String coupleId, Pageable pageable);
 }

@@ -6,23 +6,26 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Diar
 import PitterPatter.loventure.content.domain.diary.application.dto.response.DiarySummary;
 import PitterPatter.loventure.content.domain.diary.application.dto.response.PageInfo;
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
-import PitterPatter.loventure.content.domain.diary.domain.repository.ContentRepository;
+import PitterPatter.loventure.content.domain.diary.domain.repository.DiaryRepository;
+import PitterPatter.loventure.content.domain.image.service.ImageService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class ContentService {
+public class DiaryService {
 
-    private final ContentRepository contentRepository;
+    private final DiaryRepository diaryRepository;
+    private final ImageService imageService;
 
-    public DiaryResponse saveDiary(Long userId, Long coupleId, CreateDiaryRequest request) {
-        // TODO: auth 정보 받아오기
+    public Diary saveDiary(String userId, String author, String coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
         Diary diary = Diary.builder()
                 .userId(userId)
@@ -31,24 +34,25 @@ public class ContentService {
                 .title(request.title())
                 .content(request.content())
                 .rating(request.rating())
+                .authorName(author)
                 .build();
 
-        // 저장 및 DiaryResponse 형태로 반환
-        return DiaryResponse.create(contentRepository.save(diary));
+        // 저장 및 Diary 형태로 반환
+        return diaryRepository.save(diary);
     }
 
-    public int getAllDiaryCount(Long coupleId) {
-        return (int) contentRepository.countByCoupleId(coupleId);
+    public int getAllDiaryCount(String coupleId) {
+        return (int) diaryRepository.countByCoupleId(coupleId);
     }
 
-    public DiaryListResponse loadDiaryList(Long userId, Long coupleId, int page, int size) {
+    public DiaryListResponse loadDiaryList(String userId, String coupleId, int page, int size) {
         // 페이지 번호를 0부터 시작하도록 조정 (Spring Data JPA는 0부터 시작)
         Pageable pageable = PageRequest.of(page, size);
         
         // 커플의 다이어리 목록을 최신순으로 페이지네이션 조회
-        Page<Diary> contentPage = contentRepository.findByCoupleIdAndUserIdOrderByCreatedAtDesc(coupleId, userId, pageable);
+        Page<Diary> contentPage = diaryRepository.findByCoupleIdOrderByCreatedAtDesc(coupleId, pageable);
 
-        // Content 엔티티를 DiarySummary로 변환
+        // Diary 엔티티를 DiarySummary로 변환
         var diarySummaries = contentPage.getContent().stream()
                 .map(this::convertToDiarySummary)
                 .toList();
@@ -68,10 +72,22 @@ public class ContentService {
     }
     
     private DiarySummary convertToDiarySummary(Diary diary) {
-        // content에서 excerpt 생성 (첫 100자만)
+        // content에서 excerpt 생성 (첫 32자만)
         String excerpt = diary.getContent().length() > 32
                 ? diary.getContent().substring(0, 32) + "..."
                 : diary.getContent();
+
+        // 이미지 다운로드 URL 생성 (UPLOADED 상태인 경우만)
+        String imageUrl = null;
+        String imageId = null;
+        String imageStatus = null;
+
+        // image가 있으면 image 정보 및 다운로드 presignedURL 생성
+        if (diary.getImage() != null) {
+            imageId = diary.getImage().getImageId();
+            imageStatus = diary.getImage().getStatus().name();
+            imageUrl = imageService.generateDownloadUrl(imageId);
+        }
 
         return DiarySummary.builder()
                 .diaryId(diary.getDiaryId())
@@ -79,6 +95,10 @@ public class ContentService {
                 .excerpt(excerpt)
                 .updatedAt(diary.getUpdatedAt())
                 .likeCount(0) // TODO: 좋아요 기능 구현 시 실제 값으로 변경
+                .imageId(imageId)
+                .imageUrl(imageUrl)
+                .imageStatus(imageStatus)
+                .imageExpiresIn(imageUrl != null ? 3600 : null) // 1시간
                 .build();
     }
 
@@ -89,13 +109,13 @@ public class ContentService {
     }
 
     // 다이어리 엔터티 반환
-    public Diary findByDiaryId(Long diaryId) {
-        return contentRepository.findById(diaryId)
+    public Diary findByDiaryId(String diaryId) {
+        return diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
     }
 
     // 다이어리 하드 삭제
     public void deleteDiary(Diary diary) {
-        contentRepository.delete(diary);
+        diaryRepository.delete(diary);
     }
 }

@@ -64,23 +64,26 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
         
         // 3. 어노테이션과 파라미터 타입에 따라 다른 값 반환
         Class<?> parameterType = parameter.getParameterType();
+        String token = authHeader.substring(7); // "Bearer " 제거
         
-        if (parameterType == Long.class) {
+        if (parameterType == String.class) {
             if (parameter.hasParameterAnnotation(CurrentUser.class)) {
-                // @CurrentUser Long userId -> JWT에서 userId 값 추출
-                String token = authHeader.substring(7); // "Bearer " 제거
+                // @CurrentUser String userId -> JWT에서 userId 값 추출 (TSID String)
                 return tokenProvider.getUserIdFromToken(token);
             } else if (parameter.hasParameterAnnotation(CurrentCouple.class)) {
-                // @CurrentCouple Long coupleId -> JWT에서 coupleId 값 추출
-                return tokenProvider.extractCoupleId(authHeader);
+                // @CurrentCouple String coupleId -> JWT에서 coupleId 값 추출 (TSID String)
+                // coupleId가 없을 수 있음 (커플 매칭 전)
+                try {
+                    return tokenProvider.extractCoupleId(authHeader);
+                } catch (IllegalArgumentException e) {
+                    // coupleId가 토큰에 없으면 null 반환
+                    return null;
+                }
             }
-        } else if (parameterType == String.class) {
-            // String 타입이면 토큰 자체 반환 (Bearer 제거)
-            // 예: @CurrentUser String token -> "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-            return authHeader.substring(7); // "Bearer " 제거
         }
         
         // 지원하지 않는 타입이면 예외 발생
-        throw new IllegalArgumentException("Unsupported parameter type: " + parameterType);
+        throw new IllegalArgumentException("Unsupported parameter type: " + parameterType + 
+            ". @CurrentUser and @CurrentCouple only support String type (TSID format).");
     }
 }

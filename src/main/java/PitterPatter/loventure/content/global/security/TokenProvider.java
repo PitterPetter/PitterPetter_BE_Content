@@ -30,11 +30,11 @@ public class TokenProvider {
                 .build();
     }
 
-    public Long extractCoupleId(Jwt jwt) {
-        return getClaimAsLong(jwt, "coupleId");
+    public String extractCoupleId(Jwt jwt) {
+        return getClaimAsString(jwt, "coupleId");
     }
 
-    public Long extractCoupleId(String authorizationHeader) {
+    public String extractCoupleId(String authorizationHeader) {
         String token = resolveToken(authorizationHeader);
         return getCoupleIdFromToken(token);
     }
@@ -43,26 +43,46 @@ public class TokenProvider {
         return jwtDecoder;
     }
 
-    public Long getCoupleIdFromToken(String token) {
-        return getClaimAsLong(token, "coupleId");
+    public String getCoupleIdFromToken(String token) {
+        return getClaimAsString(token, "coupleId");
     }
 
     /**
      * JWT 토큰 문자열에서 userId 추출
      * @param token JWT 토큰 문자열 (Bearer 제거된 순수 토큰)
-     * @return 사용자 ID
+     * @return 사용자 ID (TSID String)
      */
-    public Long getUserIdFromToken(String token) {
-        return getClaimAsLong(token, "userId");
+    public String getUserIdFromToken(String token) {
+        return getClaimAsString(token, "userId");
     }
 
     /**
      * JWT 객체에서 userId 추출
      * @param jwt 파싱된 JWT 객체
-     * @return 사용자 ID
+     * @return 사용자 ID (TSID String)
      */
-    public Long getUserIdFromJwt(Jwt jwt) {
-        return getClaimAsLong(jwt, "userId");
+    public String getUserIdFromJwt(Jwt jwt) {
+        return getClaimAsString(jwt, "userId");
+    }
+
+    private String getClaimAsString(String token, String claimName) {
+        try {
+            Jwt jwt = jwtDecoder.decode(token);
+            return getClaimAsString(jwt, claimName);
+        } catch (JwtException ex) {
+            throw new IllegalArgumentException("Invalid JWT token", ex);
+        }
+    }
+
+    private String getClaimAsString(Jwt jwt, String claimName) {
+        Object claimValue = jwt.getClaims().get(claimName);
+        if (claimValue instanceof String stringValue) {
+            return stringValue;
+        }
+        if (claimValue instanceof Number number) {
+            return String.valueOf(number.longValue());
+        }
+        throw new IllegalArgumentException(claimName + " claim is missing in JWT");
     }
 
     private Long getClaimAsLong(String token, String claimName) {

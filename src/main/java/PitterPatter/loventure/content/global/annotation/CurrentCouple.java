@@ -11,10 +11,10 @@ import java.lang.annotation.Target;
  * 사용법:
  * @GetMapping("/api/diaries")
  * public BaseResponse<List<DiaryResponse>> getDiaries(
- *     @CurrentUser Long userId,
- *     @CurrentCouple Long coupleId
+ *     @CurrentUser String userId,
+ *     @CurrentCouple String coupleId
  * ) {
- *     // userId와 coupleId가 JWT 토큰에서 자동으로 추출되어 주입됩니다
+ *     // userId와 coupleId가 JWT 토큰에서 자동으로 추출되어 주입됩니다 (TSID String)
  * }
  */
 @Target(ElementType.PARAMETER)  // 메서드 파라미터에만 사용 가능
