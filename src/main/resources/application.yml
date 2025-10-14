@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: prod
   config:
     import: "optional:configserver:"
   cloud:
@@ -6,15 +8,13 @@ spring:
       uri: http://config-server.config-server.svc.cluster.local:80
       name: content-service
       label: main
-      fail-fast: true
+      fail-fast: false
   application:
     name: content-service
-  profiles:
-    active: prod
   jpa:
     open-in-view: false
 
-# Google Cloud Storage 설정
+# Google Cloud Storage 설정 (프로덕션)
 gcs:
   bucket-name: ${GCS_BUCKET_NAME:pit_bucket}
   credentials-path: ${GCS_CREDENTIALS_PATH:/etc/gcp/key.json}
