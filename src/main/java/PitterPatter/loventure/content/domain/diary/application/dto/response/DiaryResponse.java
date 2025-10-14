@@ -47,30 +47,30 @@ public record DiaryResponse(
 ) {
     public static DiaryResponse create(Diary diary) {
         return builder()
-                .contentId(String.valueOf(diary.getDiaryId()))
+                .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
-                .courseId(String.valueOf(diary.getCourseId()))
+                .courseId(diary.getCourseId())
                 .createdAt(diary.getCreatedAt())
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(List.of())
-                .imageId(diary.getImage() != null ? String.valueOf(diary.getImage().getImageId()) : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .build();
     }
 
     public static DiaryResponse createWithComments(Diary diary, List<CommentResponse> comments) {
         return builder()
-                .contentId(String.valueOf(diary.getDiaryId()))
+                .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
-                .courseId(String.valueOf(diary.getCourseId()))
+                .courseId(diary.getCourseId())
                 .createdAt(diary.getCreatedAt())
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(comments)
-                .imageId(diary.getImage() != null ? String.valueOf(diary.getImage().getImageId()) : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .build();
     }
@@ -80,15 +80,15 @@ public record DiaryResponse(
      */
     public static DiaryResponse createWithImageUpload(Diary diary, ImageUploadResponse imageUpload) {
         return builder()
-                .contentId(String.valueOf(diary.getDiaryId()))
+                .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
-                .courseId(String.valueOf(diary.getCourseId()))
+                .courseId(diary.getCourseId())
                 .createdAt(diary.getCreatedAt())
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(List.of())
-                .imageId(diary.getImage() != null ? String.valueOf(diary.getImage().getImageId()) : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .imageUpload(imageUpload)
                 .build();
@@ -99,15 +99,15 @@ public record DiaryResponse(
      */
     public static DiaryResponse createWithImageUrl(Diary diary, String imageUrl, List<CommentResponse> comments) {
         return builder()
-                .contentId(String.valueOf(diary.getDiaryId()))
+                .contentId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
-                .courseId(String.valueOf(diary.getCourseId()))
+                .courseId(diary.getCourseId())
                 .createdAt(diary.getCreatedAt())
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(comments)
-                .imageId(diary.getImage() != null ? String.valueOf(diary.getImage().getImageId()) : null)
+                .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageUrl(imageUrl)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .imageExpiresIn(imageUrl != null ? 3600 : null) // 1시간

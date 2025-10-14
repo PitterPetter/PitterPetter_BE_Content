@@ -22,7 +22,7 @@ public class UserLookupService {
      * @param userId 조회할 사용자 ID (이미 JWT 인증된 상태이므로 신뢰 가능)
      * @return 사용자 이름
      */
-    public String getUserName(Long userId) {
+    public String getUserName(String userId) {
         try {
             // 내부 MSA 통신: userId만으로 사용자 정보 조회 (토큰 불필요)
             UserProfileResponse profile = authClient.getUserById(userId);

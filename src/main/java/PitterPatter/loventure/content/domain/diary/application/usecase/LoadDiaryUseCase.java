@@ -27,7 +27,7 @@ public class LoadDiaryUseCase {
     private final ImageService imageService;
 
     @Transactional(readOnly = true)
-    public DiaryResponse execute(Long userId, Long coupleId, Long diaryId) {
+    public DiaryResponse execute(String userId, String coupleId, String diaryId) {
         log.info("Loading diary: diaryId={}, userId={}, coupleId={}", diaryId, userId, coupleId);
         
         Diary diary = diaryService.findByDiaryId(diaryId);

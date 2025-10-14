@@ -39,9 +39,9 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<CommentIdResponse> createComment(
-            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
-            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
-            @Parameter(description = "다이어리 ID", required = true) @PathVariable Long diaryId,
+            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser String userId,
+            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple String coupleId,
+            @Parameter(description = "다이어리 ID", required = true) @PathVariable String diaryId,
             @Parameter(description = "댓글 생성 요청 정보", required = true) @Valid @RequestBody CreateCommentRequest request
     ) {
         CommentIdResponse response = createCommentUseCase.execute(userId, coupleId, diaryId, request);
@@ -58,10 +58,10 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<CommentIdResponse> updateComment(
-            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
-            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
-            @Parameter(description = "다이어리 ID", required = true) @PathVariable Long diaryId,
-            @Parameter(description = "댓글 ID", required = true) @PathVariable Long commentId,
+            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser String userId,
+            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple String coupleId,
+            @Parameter(description = "다이어리 ID", required = true) @PathVariable String diaryId,
+            @Parameter(description = "댓글 ID", required = true) @PathVariable String commentId,
             @Parameter(description = "댓글 수정 요청 정보", required = true) @Valid @RequestBody UpdateCommentRequest request
     ) {
         CommentIdResponse response = updateCommentUseCase.execute(userId, commentId, request);
@@ -77,10 +77,10 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<Void> deleteComment(
-            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
-            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
-            @Parameter(description = "다이어리 ID", required = true) @PathVariable Long diaryId,
-            @Parameter(description = "댓글 ID", required = true) @PathVariable Long commentId
+            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser String userId,
+            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple String coupleId,
+            @Parameter(description = "다이어리 ID", required = true) @PathVariable String diaryId,
+            @Parameter(description = "댓글 ID", required = true) @PathVariable String commentId
     ) {
         deleteCommentUseCase.execute(userId, commentId);
         return BaseResponse.success(null);

@@ -17,7 +17,7 @@ public class UpdateCommentUseCase {
     private final CommentService commentService;
 
     @Transactional
-    public CommentIdResponse execute(Long userId, Long commentId, UpdateCommentRequest request) {
+    public CommentIdResponse execute(String userId, String commentId, UpdateCommentRequest request) {
         // 댓글 존재 확인
         Comment comment = commentService.findById(commentId);
 

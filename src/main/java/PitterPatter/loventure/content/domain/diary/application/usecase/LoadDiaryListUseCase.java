@@ -13,7 +13,7 @@ public class LoadDiaryListUseCase {
     private final DiaryService diaryService;
 
     @Transactional(readOnly = true)
-    public DiaryListResponse execute(Long userId, Long coupleId, int page, int size) {
+    public DiaryListResponse execute(String userId, String coupleId, int page, int size) {
         return diaryService.loadDiaryList(userId, coupleId, page, size);
     }
 }

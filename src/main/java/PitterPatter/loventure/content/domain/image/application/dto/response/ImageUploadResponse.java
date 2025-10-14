@@ -20,8 +20,8 @@ public record ImageUploadResponse(
         int expiresIn
 ) {
     
-    public static ImageUploadResponse of(Long imageId, String presignedUrl, int expiresIn) {
-        return new ImageUploadResponse(String.valueOf(imageId), presignedUrl, expiresIn);
+    public static ImageUploadResponse of(String imageId, String presignedUrl, int expiresIn) {
+        return new ImageUploadResponse(imageId, presignedUrl, expiresIn);
     }
 }
 

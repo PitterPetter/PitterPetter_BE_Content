@@ -41,7 +41,7 @@ public class ImageController {
             @ApiResponse(responseCode = "404", description = "이미지를 찾을 수 없음")
     })
     public BaseResponse<Void> completeImageUpload(
-            @Parameter(description = "이미지 ID") @PathVariable Long imageId
+            @Parameter(description = "이미지 ID") @PathVariable String imageId
     ) {
         completeImageUploadUseCase.execute(imageId);
         return BaseResponse.success(null);
@@ -59,7 +59,7 @@ public class ImageController {
             @ApiResponse(responseCode = "404", description = "이미지를 찾을 수 없음")
     })
     public BaseResponse<Void> failImageUpload(
-            @Parameter(description = "이미지 ID") @PathVariable Long imageId
+            @Parameter(description = "이미지 ID") @PathVariable String imageId
     ) {
         failImageUploadUseCase.execute(imageId);
         return BaseResponse.success(null);
@@ -79,9 +79,9 @@ public class ImageController {
             @ApiResponse(responseCode = "404", description = "이미지를 찾을 수 없음")
     })
     public BaseResponse<Void> deleteImage(
-            @Parameter(hidden = true) @CurrentUser Long userId,
-            @Parameter(hidden = true) @CurrentCouple Long coupleId,
-            @Parameter(description = "이미지 ID") @PathVariable Long imageId
+            @Parameter(hidden = true) @CurrentUser String userId,
+            @Parameter(hidden = true) @CurrentCouple String coupleId,
+            @Parameter(description = "이미지 ID") @PathVariable String imageId
     ) {
         deleteImageUseCase.execute(imageId, userId, coupleId);
         return BaseResponse.success(null);

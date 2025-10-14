@@ -9,9 +9,9 @@ public record CommentIdResponse(
         @Schema(description = "댓글 ID", example = "1234567890123456789")
         String commentId
 ) {
-    public static CommentIdResponse of(Long commentId) {
+    public static CommentIdResponse of(String commentId) {
         return CommentIdResponse.builder()
-                .commentId(String.valueOf(commentId))
+                .commentId(commentId)
                 .build();
     }
 }

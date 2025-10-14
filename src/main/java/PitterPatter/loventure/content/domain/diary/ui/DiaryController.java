@@ -39,8 +39,8 @@ public class DiaryController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public BaseResponse<DiaryResponse> createDiary(
-            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser Long userId,
-            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple Long coupleId,
+            @Parameter(description = "JWT 토큰에서 추출된 사용자 ID", hidden = true) @CurrentUser String userId,
+            @Parameter(description = "JWT 토큰에서 추출된 커플 ID", hidden = true) @CurrentCouple String coupleId,
             @Parameter(description = "다이어리 생성 요청 정보", required = true) @Valid @RequestBody CreateDiaryRequest body
     ) {
         DiaryResponse response = createDiaryUseCase.execute(userId, coupleId, body);
@@ -50,8 +50,8 @@ public class DiaryController {
     @GetMapping("")
     @Operation(summary = "다이어리 리스트 조회")
     public BaseResponse<DiaryListResponse> loadDiaryList(
-            @Parameter(hidden = true) @CurrentUser Long userId,
-            @Parameter(hidden = true) @CurrentCouple Long coupleId,
+            @Parameter(hidden = true) @CurrentUser String userId,
+            @Parameter(hidden = true) @CurrentCouple String coupleId,
             @RequestParam int page,
             @RequestParam int size
     ) {
@@ -61,9 +61,9 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     @Operation(summary = "다이어리 상세 조회")
     public BaseResponse<DiaryResponse> loadDiary(
-            @Parameter(hidden = true) @CurrentUser Long userId,
-            @Parameter(hidden = true) @CurrentCouple Long coupleId,
-            @PathVariable Long diaryId
+            @Parameter(hidden = true) @CurrentUser String userId,
+            @Parameter(hidden = true) @CurrentCouple String coupleId,
+            @PathVariable String diaryId
     ) {
         return BaseResponse.success(loadDiaryUseCase.execute(userId, coupleId, diaryId));
     }
@@ -71,9 +71,9 @@ public class DiaryController {
     @PostMapping("/{diaryId}")
     @Operation(summary = "다이어리 수정")
     public BaseResponse<DiaryResponse> updateDiary(
-            @Parameter(hidden = true) @CurrentUser Long userId,
-            @Parameter(hidden = true) @CurrentCouple Long coupleId,
-            @PathVariable Long diaryId,
+            @Parameter(hidden = true) @CurrentUser String userId,
+            @Parameter(hidden = true) @CurrentCouple String coupleId,
+            @PathVariable String diaryId,
             @RequestBody UpdateDiaryRequest request
     ) {
         return BaseResponse.success(updateDiaryUseCase.execute(diaryId, userId, coupleId, request));
@@ -82,9 +82,9 @@ public class DiaryController {
     @DeleteMapping("/{diaryId}")
     @Operation(summary = "다이어리 삭제")
     public BaseResponse<Void>  deleteDiary(
-            @Parameter(hidden = true) @CurrentUser Long userId,
-            @Parameter(hidden = true) @CurrentCouple Long coupleId,
-            @PathVariable Long diaryId
+            @Parameter(hidden = true) @CurrentUser String userId,
+            @Parameter(hidden = true) @CurrentCouple String coupleId,
+            @PathVariable String diaryId
     ) {
         return BaseResponse.success(deleteDiaryUseCase.execute(userId, coupleId, diaryId));
     }

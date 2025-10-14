@@ -18,7 +18,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public Comment saveComment(Long diaryId, Long userId, String authorName, CreateCommentRequest request) {
+    public Comment saveComment(String diaryId, String userId, String authorName, CreateCommentRequest request) {
         Comment comment = Comment.builder()
                 .diaryId(diaryId)
                 .userId(userId)
@@ -29,23 +29,23 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public Comment findById(Long commentId) {
+    public Comment findById(String commentId) {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT404));
     }
 
     @Transactional(readOnly = true)
-    public List<Comment> findByDiaryId(Long diaryId) {
+    public List<Comment> findByDiaryId(String diaryId) {
         return commentRepository.findByDiaryIdOrderByUpdatedAtAsc(diaryId);
     }
 
     @Transactional
-    public void deleteComment(Long commentId) {
+    public void deleteComment(String commentId) {
         commentRepository.deleteById(commentId);
     }
 
     @Transactional
-    public void deleteCommentsByDiaryId(Long diaryId) {
+    public void deleteCommentsByDiaryId(String diaryId) {
         commentRepository.deleteByDiaryId(diaryId);
     }
 }
