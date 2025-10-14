@@ -11,6 +11,7 @@ import PitterPatter.loventure.content.global.error.ErrorCode;
 import PitterPatter.loventure.content.global.infra.gcs.GcsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -161,9 +162,12 @@ public class ImageService {
     /**
      * 다운로드 URL 생성
      * 
+     * ✅ 캐싱 적용: 같은 imageId에 대해 55분 동안 같은 URL 반환
+     * 
      * @param imageId 이미지 ID
      * @return presignedURL (UPLOADED 상태인 경우만)
      */
+    @Cacheable(value = "imageDownloadUrls", key = "#imageId", unless = "#result == null")
     public String generateDownloadUrl(Long imageId) {
         Image image = imageRepository.findById(imageId)
             .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
@@ -173,6 +177,8 @@ public class ImageService {
             log.warn("Image is not ready for download: imageId={}, status={}", imageId, image.getStatus());
             return null;
         }
+        
+        log.info("Generating new download URL for cache: imageId={}", imageId);
         
         return gcsService.generateDownloadUrl(
             image.getObjectPath(),
