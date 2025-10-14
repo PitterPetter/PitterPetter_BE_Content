@@ -99,7 +99,8 @@ public class UpdateDiaryUseCase {
                     diaryId
                 );
                 
-                Image newImage = imageRepository.findById(imageUpload.imageId())
+                Long imageIdLong = Long.parseLong(imageUpload.imageId());  // String → Long 변환
+                Image newImage = imageRepository.findById(imageIdLong)
                     .orElseThrow();
                 diary.updateImage(newImage);
                 
