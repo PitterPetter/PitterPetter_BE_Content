@@ -24,9 +24,9 @@ public record CommentResponse(
 ) {
     public static CommentResponse create(Comment comment) {
         return CommentResponse.builder()
-                .commentId(String.valueOf(comment.getCommentId()))
+                .commentId(comment.getCommentId())
                 .content(comment.getContent())
-                .userId(String.valueOf(comment.getUserId()))
+                .userId(comment.getUserId())
                 .authorName(comment.getAuthorName())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())

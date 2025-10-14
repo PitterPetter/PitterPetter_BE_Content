@@ -20,7 +20,7 @@ public class CompleteImageUploadUseCase {
     private final ImageService imageService;
     
     @Transactional
-    public void execute(Long imageId) {
+    public void execute(String imageId) {
         log.info("Image upload complete callback: imageId={}", imageId);
         
         imageService.markAsUploaded(imageId);

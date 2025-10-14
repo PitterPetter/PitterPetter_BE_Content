@@ -26,7 +26,7 @@ public class CreateDiaryUseCase {
     private final ImageRepository imageRepository;
 
     @Transactional
-    public DiaryResponse execute(Long userId, Long coupleId, CreateDiaryRequest request) {
+    public DiaryResponse execute(String userId, String coupleId, CreateDiaryRequest request) {
         log.info("Creating diary: userId={}, coupleId={}, hasImage={}", 
             userId, coupleId, request.image() != null);
 
@@ -49,8 +49,7 @@ public class CreateDiaryUseCase {
                 );
                 
                 // 2-2. Diary에 Image 연결
-                Long imageIdLong = Long.parseLong(imageUpload.imageId());  // String → Long 변환
-                Image image = imageRepository.findById(imageIdLong)
+                Image image = imageRepository.findById(imageUpload.imageId())
                     .orElseThrow();
                 diary.updateImage(image);
                 

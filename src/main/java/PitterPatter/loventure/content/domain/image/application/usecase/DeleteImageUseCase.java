@@ -26,7 +26,7 @@ public class DeleteImageUseCase {
     private final DiaryRepository diaryRepository;
     
     @Transactional
-    public void execute(Long imageId, Long userId, Long coupleId) {
+    public void execute(String imageId, String userId, String coupleId) {
         log.info("Delete image request: imageId={}, userId={}, coupleId={}", imageId, userId, coupleId);
         
         // 1. 이미지 조회

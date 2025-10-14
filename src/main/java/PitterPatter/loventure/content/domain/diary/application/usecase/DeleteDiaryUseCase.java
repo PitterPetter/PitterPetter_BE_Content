@@ -21,7 +21,7 @@ public class DeleteDiaryUseCase {
     private final ImageService imageService;
 
     @Transactional
-    public Void execute(Long userId, Long coupleId, Long diaryId) {
+    public Void execute(String userId, String coupleId, String diaryId) {
         log.info("Deleting diary: diaryId={}, userId={}, coupleId={}", diaryId, userId, coupleId);
         
         // 다이어리 엔터티 받기
@@ -39,7 +39,7 @@ public class DeleteDiaryUseCase {
         if (diary.getImage() != null) {
             log.info("Deleting image with diary: diaryId={}, imageId={}", 
                 diaryId, diary.getImage().getImageId());
-            Long imageIdToDelete = diary.getImage().getImageId();
+            String imageIdToDelete = diary.getImage().getImageId();
             diary.removeImage();  // FK 제거
             imageService.deleteImage(imageIdToDelete);
         }

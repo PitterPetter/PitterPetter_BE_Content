@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByDiaryIdOrderByUpdatedAtAsc(Long diaryId);
-    void deleteByDiaryId(Long diaryId);
+public interface CommentRepository extends JpaRepository<Comment, String> {
+    List<Comment> findByDiaryIdOrderByUpdatedAtAsc(String diaryId);
+    void deleteByDiaryId(String diaryId);
 }
 

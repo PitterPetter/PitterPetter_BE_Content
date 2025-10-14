@@ -15,7 +15,7 @@ public class DeleteCommentUseCase {
     private final CommentService commentService;
 
     @Transactional
-    public void execute(Long userId, Long commentId) {
+    public void execute(String userId, String commentId) {
         // 댓글 존재 확인
         Comment comment = commentService.findById(commentId);
 

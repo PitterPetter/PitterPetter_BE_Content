@@ -22,7 +22,7 @@ public class Image extends BaseTimeEntity {
     
     @Id @Tsid
     @Column(name = "image_id")
-    private Long imageId;
+    private String imageId;
     
     /**
      * 고유 식별자 (UUID)
@@ -50,7 +50,7 @@ public class Image extends BaseTimeEntity {
      * imageType에 따라 참조하는 엔터티가 다름
      */
     @Column(name = "reference_id")
-    private Long referenceId;
+    private String referenceId;
     
     /**
      * 업로드 상태 (PENDING, UPLOADED, FAILED)
@@ -78,7 +78,7 @@ public class Image extends BaseTimeEntity {
     private String originalFileName;
     
     @Builder
-    public Image(String uuid, String objectPath, ImageType imageType, Long referenceId,
+    public Image(String uuid, String objectPath, ImageType imageType, String referenceId,
                  ImageStatus status, String contentType, Long sizeBytes, String originalFileName) {
         this.uuid = uuid;
         this.objectPath = objectPath;
@@ -107,7 +107,7 @@ public class Image extends BaseTimeEntity {
     /**
      * referenceId 업데이트
      */
-    public void updateReferenceId(Long referenceId) {
+    public void updateReferenceId(String referenceId) {
         this.referenceId = referenceId;
     }
 }
