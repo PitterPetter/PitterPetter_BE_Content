@@ -2,6 +2,7 @@ package PitterPatter.loventure.content.domain.diary.domain.entity;
 
 import PitterPatter.loventure.content.domain.image.domain.entity.Image;
 import PitterPatter.loventure.content.global.common.BaseTimeEntity;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
