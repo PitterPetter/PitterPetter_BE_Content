@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "이미지 업로드 응답")
 public record ImageUploadResponse(
         
-        @Schema(description = "이미지 ID", example = "1")
-        Long imageId,
+        @Schema(description = "이미지 ID", example = "1234567890123456789")
+        String imageId,
         
         @Schema(description = "업로드용 presignedURL")
         String presignedUrl,
@@ -20,7 +20,7 @@ public record ImageUploadResponse(
         int expiresIn
 ) {
     
-    public static ImageUploadResponse of(Long imageId, String presignedUrl, int expiresIn) {
+    public static ImageUploadResponse of(String imageId, String presignedUrl, int expiresIn) {
         return new ImageUploadResponse(imageId, presignedUrl, expiresIn);
     }
 }

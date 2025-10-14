@@ -20,14 +20,14 @@ public class Diary extends BaseTimeEntity {
     // pk: diary_id
     @Id @Tsid
     @Column(name = "diary_id")
-    private Long diaryId;
+    private String diaryId;
 
     // 필수: couple_id
     @Column(name = "couple_id", nullable = false)
-    private Long coupleId;
+    private String coupleId;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String userId;
 
     // 작성자 이름 (auth 서비스에서 받아온 정보)
     @Column(name = "author_name", nullable = false, length = 50)
@@ -35,7 +35,7 @@ public class Diary extends BaseTimeEntity {
 
     // 필수: course_id
     @Column(name = "course_id", nullable = false)
-    private Long courseId;
+    private String courseId;
 
     // 평점: 소수점(예: 4.8). 금액/정밀도가 중요한 도메인이 아니므로 Double로 저장
     @Column(name = "rating")

@@ -7,8 +7,8 @@ import jakarta.validation.constraints.*;
 
 @Schema(description = "다이어리 생성 요청")
 public record CreateDiaryRequest(
-        @Schema(description = "코스 ID", example = "1")
-        @NotNull Long courseId,
+        @Schema(description = "코스 ID", example = "1234567890123456789")
+        @NotBlank String courseId,
 
         @Schema(description = "다이어리 제목", example = "오늘의 데이트")
         @Size(min = 1, max = 100)

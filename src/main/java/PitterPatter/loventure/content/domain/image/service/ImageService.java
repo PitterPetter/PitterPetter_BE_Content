@@ -55,7 +55,7 @@ public class ImageService {
     public ImageUploadResponse createImageMetadata(
             ImageMetadataRequest request,
             ImageType imageType,
-            Long referenceId
+            String referenceId
     ) {
         log.info("Creating image metadata: type={}, referenceId={}, fileName={}", 
             imageType, referenceId, request.originalFileName());
@@ -112,7 +112,7 @@ public class ImageService {
      * 
      * @param imageId 이미지 ID
      */
-    public void markAsUploaded(Long imageId) {
+    public void markAsUploaded(String imageId) {
         log.info("Marking image as uploaded: imageId={}", imageId);
         
         Image image = imageRepository.findById(imageId)
@@ -128,7 +128,7 @@ public class ImageService {
      * 
      * @param imageId 이미지 ID
      */
-    public void markAsFailed(Long imageId) {
+    public void markAsFailed(String imageId) {
         log.info("Marking image as failed: imageId={}", imageId);
         
         Image image = imageRepository.findById(imageId)
@@ -144,7 +144,7 @@ public class ImageService {
      * 
      * @param imageId 이미지 ID
      */
-    public void deleteImage(Long imageId) {
+    public void deleteImage(String imageId) {
         log.info("Deleting image: imageId={}", imageId);
         
         Image image = imageRepository.findById(imageId)
@@ -168,7 +168,7 @@ public class ImageService {
      * @return presignedURL (UPLOADED 상태인 경우만)
      */
     @Cacheable(value = "imageDownloadUrls", key = "#imageId", unless = "#result == null")
-    public String generateDownloadUrl(Long imageId) {
+    public String generateDownloadUrl(String imageId) {
         Image image = imageRepository.findById(imageId)
             .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
         
@@ -192,7 +192,7 @@ public class ImageService {
      * @param imageId 이미지 ID
      * @return Image 엔터티
      */
-    public Image getImage(Long imageId) {
+    public Image getImage(String imageId) {
         return imageRepository.findById(imageId)
             .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
     }

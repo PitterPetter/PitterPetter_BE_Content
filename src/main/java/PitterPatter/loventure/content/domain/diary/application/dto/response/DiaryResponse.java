@@ -12,14 +12,14 @@ import java.util.List;
 @Schema(description = "다이어리 응답")
 @Builder
 public record DiaryResponse(
-        @Schema(description = "콘텐츠 ID", example = "1")
-        Long contentId,
+        @Schema(description = "콘텐츠 ID", example = "1234567890123456789")
+        String contentId,
         @Schema(description = "다이어리 제목", example = "오늘의 데이트")
         String title,
         @Schema(description = "다이어리 내용", example = "정말 즐거운 하루였습니다!")
         String content,
-        @Schema(description = "코스 ID", example = "1")
-        Long courseId,
+        @Schema(description = "코스 ID", example = "9876543210987654321")
+        String courseId,
         @Schema(description = "작성자 userId")
         String userId,
         @Schema(description = "작성자 정보")
@@ -33,7 +33,7 @@ public record DiaryResponse(
         
         // 이미지 관련 필드
         @Schema(description = "이미지 ID (있을 경우)")
-        Long imageId,
+        String imageId,
         @Schema(description = "이미지 다운로드 URL (UPLOADED 상태인 경우)")
         String imageUrl,
         @Schema(description = "이미지 상태 (PENDING, UPLOADED, FAILED)")

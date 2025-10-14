@@ -45,7 +45,7 @@ public class UpdateDiaryUseCase {
      * @throws CustomException 권한 검증 실패 시
      */
     @Transactional
-    public DiaryResponse execute(Long diaryId, Long userId, Long coupleId, UpdateDiaryRequest request) {
+    public DiaryResponse execute(String diaryId, String userId, String coupleId, UpdateDiaryRequest request) {
         log.info("Updating diary: diaryId={}, userId={}, hasImage={}, removeImage={}", 
             diaryId, userId, request.image() != null, request.removeImage());
         
@@ -75,7 +75,7 @@ public class UpdateDiaryUseCase {
             if (diary.getImage() != null) {
                 log.info("Removing image from diary: diaryId={}, imageId={}", 
                     diaryId, diary.getImage().getImageId());
-                Long imageIdToDelete = diary.getImage().getImageId();
+                String imageIdToDelete = diary.getImage().getImageId();
                 diary.removeImage();
                 imageService.deleteImage(imageIdToDelete);
             }
@@ -86,7 +86,7 @@ public class UpdateDiaryUseCase {
             if (diary.getImage() != null) {
                 log.info("Replacing image for diary: diaryId={}, oldImageId={}", 
                     diaryId, diary.getImage().getImageId());
-                Long oldImageId = diary.getImage().getImageId();
+                String oldImageId = diary.getImage().getImageId();
                 diary.removeImage();
                 imageService.deleteImage(oldImageId);
             }

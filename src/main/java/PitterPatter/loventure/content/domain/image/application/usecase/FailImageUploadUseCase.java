@@ -20,7 +20,7 @@ public class FailImageUploadUseCase {
     private final ImageService imageService;
     
     @Transactional
-    public void execute(Long imageId) {
+    public void execute(String imageId) {
         log.info("Image upload fail callback: imageId={}", imageId);
         
         imageService.markAsFailed(imageId);

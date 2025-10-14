@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @Schema(description = "댓글 응답 (다이어리 상세 조회 시)")
 @Builder
 public record CommentResponse(
-        @Schema(description = "댓글 ID", example = "1")
-        Long commentId,
+        @Schema(description = "댓글 ID", example = "1234567890123456789")
+        String commentId,
         @Schema(description = "댓글 내용", example = "좋은 글이네요!")
         String content,
-        @Schema(description = "작성자 ID", example = "123")
-        Long userId,
+        @Schema(description = "작성자 ID", example = "9876543210987654321")
+        String userId,
         @Schema(description = "작성자 이름", example = "홍길동")
         String authorName,
         @Schema(description = "생성일시")

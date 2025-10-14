@@ -25,7 +25,7 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final ImageService imageService;
 
-    public Diary saveDiary(Long userId, String author, Long coupleId, CreateDiaryRequest request) {
+    public Diary saveDiary(String userId, String author, String coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
         Diary diary = Diary.builder()
                 .userId(userId)
@@ -41,11 +41,11 @@ public class DiaryService {
         return diaryRepository.save(diary);
     }
 
-    public int getAllDiaryCount(Long coupleId) {
+    public int getAllDiaryCount(String coupleId) {
         return (int) diaryRepository.countByCoupleId(coupleId);
     }
 
-    public DiaryListResponse loadDiaryList(Long userId, Long coupleId, int page, int size) {
+    public DiaryListResponse loadDiaryList(String userId, String coupleId, int page, int size) {
         // 페이지 번호를 0부터 시작하도록 조정 (Spring Data JPA는 0부터 시작)
         Pageable pageable = PageRequest.of(page, size);
         
@@ -79,7 +79,7 @@ public class DiaryService {
 
         // 이미지 다운로드 URL 생성 (UPLOADED 상태인 경우만)
         String imageUrl = null;
-        Long imageId = null;
+        String imageId = null;
         String imageStatus = null;
 
         // image가 있으면 image 정보 및 다운로드 presignedURL 생성
@@ -109,7 +109,7 @@ public class DiaryService {
     }
 
     // 다이어리 엔터티 반환
-    public Diary findByDiaryId(Long diaryId) {
+    public Diary findByDiaryId(String diaryId) {
         return diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIARY404));
     }

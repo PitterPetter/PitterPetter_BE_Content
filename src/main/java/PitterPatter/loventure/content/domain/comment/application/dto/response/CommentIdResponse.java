@@ -6,10 +6,10 @@ import lombok.Builder;
 @Schema(description = "댓글 ID 응답 (작성/수정 시)")
 @Builder
 public record CommentIdResponse(
-        @Schema(description = "댓글 ID", example = "1")
-        Long commentId
+        @Schema(description = "댓글 ID", example = "1234567890123456789")
+        String commentId
 ) {
-    public static CommentIdResponse of(Long commentId) {
+    public static CommentIdResponse of(String commentId) {
         return CommentIdResponse.builder()
                 .commentId(commentId)
                 .build();
