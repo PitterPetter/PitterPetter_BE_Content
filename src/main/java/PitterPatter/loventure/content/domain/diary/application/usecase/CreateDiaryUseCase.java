@@ -49,7 +49,8 @@ public class CreateDiaryUseCase {
                 );
                 
                 // 2-2. Diary에 Image 연결
-                Image image = imageRepository.findById(imageUpload.imageId())
+                Long imageIdLong = Long.parseLong(imageUpload.imageId());  // String → Long 변환
+                Image image = imageRepository.findById(imageIdLong)
                     .orElseThrow();
                 diary.updateImage(image);
                 

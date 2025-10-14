@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Schema(description = "다이어리 요약 정보")
 @Builder
 public record DiarySummary(
-        @Schema(description = "다이어리 ID", example = "d_123")
-        Long diaryId,
+        @Schema(description = "다이어리 ID", example = "1234567890123456789")
+        String diaryId,
         @Schema(description = "다이어리 제목", example = "제주도 첫 여행")
         String title,
         @Schema(description = "다이어리 요약", example = "드디어 함께 떠난 첫 여행…")
@@ -21,7 +21,7 @@ public record DiarySummary(
         
         // 이미지 관련 필드
         @Schema(description = "이미지 ID (있을 경우)")
-        Long imageId,
+        String imageId,
         @Schema(description = "이미지 다운로드 URL (UPLOADED 상태인 경우)")
         String imageUrl,
         @Schema(description = "이미지 상태 (PENDING, UPLOADED, FAILED)")

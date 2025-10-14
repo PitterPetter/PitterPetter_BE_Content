@@ -30,7 +30,7 @@ public class DiaryService {
         Diary diary = Diary.builder()
                 .userId(userId)
                 .coupleId(coupleId)
-                .courseId(request.courseId())
+                .courseId(Long.parseLong(request.courseId()))  // String → Long 변환
                 .title(request.title())
                 .content(request.content())
                 .rating(request.rating())
@@ -79,18 +79,19 @@ public class DiaryService {
 
         // 이미지 다운로드 URL 생성 (UPLOADED 상태인 경우만)
         String imageUrl = null;
-        Long imageId = null;
+        String imageId = null;  // Long → String으로 변경
         String imageStatus = null;
 
         // image가 있으면 image 정보 및 다운로드 presignedURL 생성
         if (diary.getImage() != null) {
-            imageId = diary.getImage().getImageId();
+            Long imageIdLong = diary.getImage().getImageId();
+            imageId = String.valueOf(imageIdLong);  // Long → String 변환
             imageStatus = diary.getImage().getStatus().name();
-            imageUrl = imageService.generateDownloadUrl(imageId);
+            imageUrl = imageService.generateDownloadUrl(imageIdLong);
         }
 
         return DiarySummary.builder()
-                .diaryId(diary.getDiaryId())
+                .diaryId(String.valueOf(diary.getDiaryId()))  // Long → String 변환
                 .title(diary.getTitle())
                 .excerpt(excerpt)
                 .updatedAt(diary.getUpdatedAt())
