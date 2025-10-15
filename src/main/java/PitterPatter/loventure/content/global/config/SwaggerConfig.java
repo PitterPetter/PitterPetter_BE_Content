@@ -29,8 +29,8 @@ public class SwaggerConfig {
                                 .url("http://localhost:8080")
                                 .description("로컬 개발 서버"),
                         new Server()
-                                .url("https://api.loventure.us/api/diaries")
-                                .description("프로덕션 서버")
+                                .url("https://api.loventure.us")
+                                .description("프로덕션 서버 (Gateway)")
                 ))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
