@@ -28,12 +28,12 @@ public class UserLookupService {
             UserProfileResponse profile = authClient.getUserById(userId);
 
             // null 체크
-            if (profile == null || profile.name() == null) {
+            if (profile == null || profile.userName() == null) {
                 log.error("Auth 서비스에서 null 응답을 받았습니다. userId: {}", userId);
                 throw new CustomException(ErrorCode.USER_NOT_FOUND);
             }
 
-            return profile.name();
+            return profile.userName();
 
         } catch (FeignException.NotFound e) {
             log.error("사용자를 찾을 수 없습니다. userId: {}", userId, e);
