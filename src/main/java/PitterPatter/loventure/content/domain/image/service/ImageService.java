@@ -225,7 +225,7 @@ public class ImageService {
     private String extractExtension(String fileName) {
         int lastDot = fileName.lastIndexOf('.');
         if (lastDot == -1 || lastDot == fileName.length() - 1) {
-            log.warn("Invalid file name: {}", fileName);
+            log.warn("Invalid file userName: {}", fileName);
             throw new CustomException(ErrorCode.INVALID_IMAGE_TYPE, 
                 "잘못된 파일명: " + fileName);
         }
