@@ -48,6 +48,7 @@ public record DiaryResponse(
     public static DiaryResponse create(Diary diary) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -63,6 +64,7 @@ public record DiaryResponse(
     public static DiaryResponse createWithComments(Diary diary, List<CommentResponse> comments) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -81,6 +83,7 @@ public record DiaryResponse(
     public static DiaryResponse createWithImageUpload(Diary diary, ImageUploadResponse imageUpload) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -100,6 +103,7 @@ public record DiaryResponse(
     public static DiaryResponse createWithImageUrl(Diary diary, String imageUrl, List<CommentResponse> comments) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
