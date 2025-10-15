@@ -9,10 +9,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
+@Slf4j
 @Component
 public class TokenProvider {
 
@@ -20,11 +24,25 @@ public class TokenProvider {
 
     private final JwtDecoder jwtDecoder;
 
+    // Auth Service와 동일한 방식으로 JWT Secret 처리
     public TokenProvider(@Value("${jwt.secret}") String secret) {
         if (!StringUtils.hasText(secret)) {
             throw new IllegalArgumentException("JWT secret must not be blank");
         }
-        SecretKey key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+        
+        // Base64 디코딩 로직 (Auth Service JWTUtil과 동일)
+        SecretKey key;
+        try {
+            // Base64 인코딩된 값 -> 바이트 배열로 디코딩 시도
+            byte[] decodedKey = Base64.getDecoder().decode(secret);
+            key = new SecretKeySpec(decodedKey, "HmacSHA256");
+            log.info("JWT 시크릿 키를 Base64 디코딩하여 설정했습니다. 길이: {}", decodedKey.length);
+        } catch (IllegalArgumentException e) {
+            // Base64 디코딩 실패 시 원본 문자열을 UTF-8 바이트로 변환
+            key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            log.info("JWT 시크릿 키를 UTF-8 바이트로 변환하여 설정했습니다. 길이: {}", secret.getBytes(StandardCharsets.UTF_8).length);
+        }
+        
         this.jwtDecoder = NimbusJwtDecoder.withSecretKey(key)
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
