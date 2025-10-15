@@ -30,7 +30,7 @@ public class TokenProvider {
             throw new IllegalArgumentException("JWT secret must not be blank");
         }
         
-        // Base64 디코딩 로직 (Auth Service JWTUtil과 동일)
+        // Base64 디코딩 로직 
         SecretKey key;
         try {
             // Base64 인코딩된 값 -> 바이트 배열로 디코딩 시도
