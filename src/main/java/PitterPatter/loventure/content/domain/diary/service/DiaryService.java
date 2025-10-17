@@ -107,9 +107,9 @@ public class DiaryService {
                 .build();
     }
 
-    // 다이어리 엔터티 받아서 제목, 내용 수정
-    public DiaryResponse updateDiary(Diary diary, String title, String content) {
-        diary.update(title, content);
+    // 다이어리 엔터티 받아서 제목, 내용, 평점 수정
+    public DiaryResponse updateDiary(Diary diary, String title, String content, Double rating) {
+        diary.update(title, content, rating);
         return DiaryResponse.create(diary);
     }
 

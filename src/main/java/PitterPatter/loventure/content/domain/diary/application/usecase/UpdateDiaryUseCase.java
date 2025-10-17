@@ -65,7 +65,7 @@ public class UpdateDiaryUseCase {
         }
 
         // 다이어리 내용 수정
-        DiaryResponse response = diaryService.updateDiary(diary, request.title(), request.content());
+        diaryService.updateDiary(diary, request.title(), request.content(), request.rating());
         
         // 이미지 처리
         ImageUploadResponse imageUpload = null;

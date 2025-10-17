@@ -53,9 +53,10 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    public void update(String title, String content) {
+    public void update(String title, String content, Double rating) {
         this.title = title;
         this.content = content;
+        this.rating = rating;
     }
 
     /**
