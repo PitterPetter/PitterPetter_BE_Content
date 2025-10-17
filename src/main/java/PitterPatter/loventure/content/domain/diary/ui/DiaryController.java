@@ -55,7 +55,7 @@ public class DiaryController {
             @RequestParam int page,
             @RequestParam int size
     ) {
-        return BaseResponse.success(loadDiaryListUseCase.execute(userId, coupleId, page, size));
+        return BaseResponse.success(loadDiaryListUseCase.execute(coupleId, page, size));
     }
 
     @GetMapping("/{diaryId}")
