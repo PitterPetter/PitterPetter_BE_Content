@@ -55,7 +55,7 @@ public class DiaryController {
             @RequestParam int page,
             @RequestParam int size
     ) {
-        return BaseResponse.success(loadDiaryListUseCase.execute(userId, coupleId, page, size));
+        return BaseResponse.success(loadDiaryListUseCase.execute(coupleId, page, size));
     }
 
     @GetMapping("/{diaryId}")
@@ -68,7 +68,7 @@ public class DiaryController {
         return BaseResponse.success(loadDiaryUseCase.execute(userId, coupleId, diaryId));
     }
 
-    @PostMapping("/{diaryId}")
+    @PatchMapping("/{diaryId}")
     @Operation(summary = "다이어리 수정")
     public BaseResponse<DiaryResponse> updateDiary(
             @Parameter(hidden = true) @CurrentUser String userId,

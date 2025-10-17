@@ -10,5 +10,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, String> {
     List<Comment> findByDiaryIdOrderByUpdatedAtAsc(String diaryId);
     void deleteByDiaryId(String diaryId);
+    long countByDiaryId(String diaryId);
 }
 

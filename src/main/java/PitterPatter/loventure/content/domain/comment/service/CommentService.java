@@ -48,5 +48,10 @@ public class CommentService {
     public void deleteCommentsByDiaryId(String diaryId) {
         commentRepository.deleteByDiaryId(diaryId);
     }
+
+    @Transactional(readOnly = true)
+    public long countByDiaryId(String diaryId) {
+        return commentRepository.countByDiaryId(diaryId);
+    }
 }
 

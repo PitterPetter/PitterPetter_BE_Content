@@ -30,6 +30,8 @@ public record DiaryResponse(
         LocalDateTime updatedAt,
         @Schema(description = "댓글 목록")
         List<CommentResponse> comments,
+        @Schema(description = "댓글 개수", example = "5")
+        int commentCount,
         
         // 이미지 관련 필드
         @Schema(description = "이미지 ID (있을 경우)")
@@ -48,6 +50,7 @@ public record DiaryResponse(
     public static DiaryResponse create(Diary diary) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -55,6 +58,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(List.of())
+                .commentCount(0)
                 .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .build();
@@ -63,6 +67,7 @@ public record DiaryResponse(
     public static DiaryResponse createWithComments(Diary diary, List<CommentResponse> comments) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -70,6 +75,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(comments)
+                .commentCount(comments.size())
                 .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .build();
@@ -81,6 +87,7 @@ public record DiaryResponse(
     public static DiaryResponse createWithImageUpload(Diary diary, ImageUploadResponse imageUpload) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -88,6 +95,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(List.of())
+                .commentCount(0)
                 .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
                 .imageUpload(imageUpload)
@@ -100,6 +108,7 @@ public record DiaryResponse(
     public static DiaryResponse createWithImageUrl(Diary diary, String imageUrl, List<CommentResponse> comments) {
         return builder()
                 .contentId(diary.getDiaryId())
+                .userId(diary.getUserId())
                 .title(diary.getTitle())
                 .content(diary.getContent())
                 .courseId(diary.getCourseId())
@@ -107,6 +116,7 @@ public record DiaryResponse(
                 .updatedAt(diary.getUpdatedAt())
                 .author(diary.getAuthorName())
                 .comments(comments)
+                .commentCount(comments.size())
                 .imageId(diary.getImage() != null ? diary.getImage().getImageId() : null)
                 .imageUrl(imageUrl)
                 .imageStatus(diary.getImage() != null ? diary.getImage().getStatus().name() : null)
