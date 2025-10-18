@@ -52,8 +52,8 @@ public class DiaryController {
     public BaseResponse<DiaryListResponse> loadDiaryList(
             @Parameter(hidden = true) @CurrentUser String userId,
             @Parameter(hidden = true) @CurrentCouple String coupleId,
-            @RequestParam int page,
-            @RequestParam int size
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
         return BaseResponse.success(loadDiaryListUseCase.execute(coupleId, page, size));
     }

@@ -10,7 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Configuration
 public class SecurityConfig {
 
@@ -22,6 +24,8 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        log.info("=== SecurityConfig CORS 설정 초기화 ===");
+        
         CorsConfiguration configuration = new CorsConfiguration();
         
         // 허용할 Origin 설정 - 구체적인 도메인 지정
@@ -29,6 +33,8 @@ public class SecurityConfig {
         configuration.addAllowedOriginPattern("https://*.loventure.us"); // 하위 도메인 포함
         configuration.addAllowedOriginPattern("http://localhost:*"); // 로컬 개발 환경
         configuration.addAllowedOriginPattern("http://127.0.0.1:*");
+        
+        log.info("허용된 Origin 패턴: {}", configuration.getAllowedOriginPatterns());
         
         // 허용할 HTTP 메서드
         configuration.addAllowedMethod("GET");
@@ -38,10 +44,15 @@ public class SecurityConfig {
         configuration.addAllowedMethod("OPTIONS");
         configuration.addAllowedMethod("PATCH");
         
+        log.info("허용된 메서드: {}", configuration.getAllowedMethods());
+        
         // 허용할 헤더
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("X-User-Id");
         configuration.addExposedHeader("X-Couple-Id");
+        
+        log.info("허용된 헤더: {}", configuration.getAllowedHeaders());
+        log.info("노출된 헤더: {}", configuration.getExposedHeaders());
         
         // 쿠키 및 인증 정보 허용
         configuration.setAllowCredentials(true);
@@ -49,9 +60,13 @@ public class SecurityConfig {
         // preflight 요청 캐시 시간 (1시간)
         configuration.setMaxAge(3600L);
         
+        log.info("Credentials 허용: {}", configuration.getAllowCredentials());
+        log.info("Preflight 캐시 시간: {}초", configuration.getMaxAge());
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         
+        log.info("=== SecurityConfig CORS 설정 완료 ===");
         return source;
     }
 

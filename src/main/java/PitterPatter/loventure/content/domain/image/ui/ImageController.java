@@ -12,13 +12,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 이미지 관리 API
  * 
  * 이미지 업로드 완료/실패 처리 및 삭제를 담당합니다.
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/images")
@@ -41,10 +44,24 @@ public class ImageController {
             @ApiResponse(responseCode = "404", description = "이미지를 찾을 수 없음")
     })
     public BaseResponse<Void> completeImageUpload(
-            @Parameter(description = "이미지 ID") @PathVariable String imageId
+            @Parameter(description = "이미지 ID") @PathVariable String imageId,
+            HttpServletRequest request
     ) {
-        completeImageUploadUseCase.execute(imageId);
-        return BaseResponse.success(null);
+        log.info("=== PATCH /api/images/{}/complete 요청 시작 ===", imageId);
+        log.info("Origin: {}", request.getHeader("Origin"));
+        log.info("User-Agent: {}", request.getHeader("User-Agent"));
+        log.info("Referer: {}", request.getHeader("Referer"));
+        log.info("X-Forwarded-For: {}", request.getHeader("X-Forwarded-For"));
+        log.info("Remote Address: {}", request.getRemoteAddr());
+        
+        try {
+            completeImageUploadUseCase.execute(imageId);
+            log.info("=== PATCH /api/images/{}/complete 요청 성공 ===", imageId);
+            return BaseResponse.success(null);
+        } catch (Exception e) {
+            log.error("=== PATCH /api/images/{}/complete 요청 실패 ===", imageId, e);
+            throw e;
+        }
     }
     
     /**
@@ -59,10 +76,24 @@ public class ImageController {
             @ApiResponse(responseCode = "404", description = "이미지를 찾을 수 없음")
     })
     public BaseResponse<Void> failImageUpload(
-            @Parameter(description = "이미지 ID") @PathVariable String imageId
+            @Parameter(description = "이미지 ID") @PathVariable String imageId,
+            HttpServletRequest request
     ) {
-        failImageUploadUseCase.execute(imageId);
-        return BaseResponse.success(null);
+        log.info("=== PATCH /api/images/{}/fail 요청 시작 ===", imageId);
+        log.info("Origin: {}", request.getHeader("Origin"));
+        log.info("User-Agent: {}", request.getHeader("User-Agent"));
+        log.info("Referer: {}", request.getHeader("Referer"));
+        log.info("X-Forwarded-For: {}", request.getHeader("X-Forwarded-For"));
+        log.info("Remote Address: {}", request.getRemoteAddr());
+        
+        try {
+            failImageUploadUseCase.execute(imageId);
+            log.info("=== PATCH /api/images/{}/fail 요청 성공 ===", imageId);
+            return BaseResponse.success(null);
+        } catch (Exception e) {
+            log.error("=== PATCH /api/images/{}/fail 요청 실패 ===", imageId, e);
+            throw e;
+        }
     }
     
     /**
