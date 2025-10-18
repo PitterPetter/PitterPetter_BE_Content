@@ -47,7 +47,7 @@ public class ImageController {
             @Parameter(description = "이미지 ID") @PathVariable String imageId,
             HttpServletRequest request
     ) {
-        log.info("=== PATCH /api/images/{}/complete 요청 시작 ===", imageId);
+        log.info("=== POST /api/images/{}/complete 요청 시작 ===", imageId);
         log.info("Origin: {}", request.getHeader("Origin"));
         log.info("User-Agent: {}", request.getHeader("User-Agent"));
         log.info("Referer: {}", request.getHeader("Referer"));
@@ -56,10 +56,10 @@ public class ImageController {
         
         try {
             completeImageUploadUseCase.execute(imageId);
-            log.info("=== PATCH /api/images/{}/complete 요청 성공 ===", imageId);
+            log.info("=== POST /api/images/{}/complete 요청 성공 ===", imageId);
             return BaseResponse.success(null);
         } catch (Exception e) {
-            log.error("=== PATCH /api/images/{}/complete 요청 실패 ===", imageId, e);
+            log.error("=== POST /api/images/{}/complete 요청 실패 ===", imageId, e);
             throw e;
         }
     }
@@ -79,7 +79,7 @@ public class ImageController {
             @Parameter(description = "이미지 ID") @PathVariable String imageId,
             HttpServletRequest request
     ) {
-        log.info("=== PATCH /api/images/{}/fail 요청 시작 ===", imageId);
+        log.info("=== POST /api/images/{}/fail 요청 시작 ===", imageId);
         log.info("Origin: {}", request.getHeader("Origin"));
         log.info("User-Agent: {}", request.getHeader("User-Agent"));
         log.info("Referer: {}", request.getHeader("Referer"));
@@ -88,10 +88,10 @@ public class ImageController {
         
         try {
             failImageUploadUseCase.execute(imageId);
-            log.info("=== PATCH /api/images/{}/fail 요청 성공 ===", imageId);
+            log.info("=== POST /api/images/{}/fail 요청 성공 ===", imageId);
             return BaseResponse.success(null);
         } catch (Exception e) {
-            log.error("=== PATCH /api/images/{}/fail 요청 실패 ===", imageId, e);
+            log.error("=== POST /api/images/{}/fail 요청 실패 ===", imageId, e);
             throw e;
         }
     }
