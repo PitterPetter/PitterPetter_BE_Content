@@ -37,7 +37,7 @@ public class ImageController {
      * 
      * 프론트엔드가 GCS에 이미지를 성공적으로 업로드한 후 호출합니다.
      */
-    @PatchMapping("/{imageId}/complete")
+    @PostMapping("/{imageId}/complete")
     @Operation(summary = "이미지 업로드 완료", description = "GCS에 이미지 업로드 완료 후 호출하여 상태를 UPLOADED로 변경합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "업로드 완료 처리 성공"),
@@ -69,7 +69,7 @@ public class ImageController {
      * 
      * 프론트엔드가 GCS에 이미지 업로드 실패 시 호출합니다.
      */
-    @PatchMapping("/{imageId}/fail")
+    @PostMapping("/{imageId}/fail")
     @Operation(summary = "이미지 업로드 실패", description = "GCS에 이미지 업로드 실패 시 호출하여 상태를 FAILED로 변경합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "업로드 실패 처리 성공"),

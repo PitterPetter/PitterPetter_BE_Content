@@ -53,7 +53,7 @@ public class DiaryController {
             @Parameter(hidden = true) @CurrentUser String userId,
             @Parameter(hidden = true) @CurrentCouple String coupleId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "6") int size
     ) {
         return BaseResponse.success(loadDiaryListUseCase.execute(coupleId, page, size));
     }
