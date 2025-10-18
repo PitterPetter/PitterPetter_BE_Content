@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @CurrentUser 어노테이션을 사용하기 위해 CurrentUserArgumentResolver를 등록합니다.
  * 이 설정이 있어야 @CurrentUser 어노테이션이 동작합니다.
  */
+@Slf4j
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -41,6 +43,14 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        log.info("=== CORS 설정 초기화 ===");
+        log.info("허용된 Origin 패턴: https://loventure.us, https://*.loventure.us, http://localhost:*, http://127.0.0.1:*");
+        log.info("허용된 메서드: GET, POST, PUT, DELETE, OPTIONS, PATCH");
+        log.info("허용된 헤더: *");
+        log.info("노출된 헤더: X-User-Id, X-Couple-Id");
+        log.info("Credentials 허용: true");
+        log.info("Preflight 캐시 시간: 3600초");
+        
         registry.addMapping("/**")
                 .allowedOriginPatterns("https://loventure.us", "https://*.loventure.us", "http://localhost:*", "http://127.0.0.1:*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
@@ -48,5 +58,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .exposedHeaders("X-User-Id", "X-Couple-Id")
                 .allowCredentials(true)
                 .maxAge(3600);
+        
+        log.info("=== CORS 설정 완료 ===");
     }
 }
