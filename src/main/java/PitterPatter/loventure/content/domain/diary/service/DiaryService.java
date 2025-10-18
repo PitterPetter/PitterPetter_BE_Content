@@ -8,6 +8,7 @@ import PitterPatter.loventure.content.domain.diary.application.dto.response.Page
 import PitterPatter.loventure.content.domain.diary.domain.entity.Diary;
 import PitterPatter.loventure.content.domain.diary.domain.repository.DiaryRepository;
 import PitterPatter.loventure.content.domain.image.service.ImageService;
+import PitterPatter.loventure.content.domain.comment.service.CommentService;
 import PitterPatter.loventure.content.global.error.CustomException;
 import PitterPatter.loventure.content.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class DiaryService {
 
     private final DiaryRepository diaryRepository;
     private final ImageService imageService;
+    private final CommentService commentService;
 
     public Diary saveDiary(String userId, String author, String coupleId, CreateDiaryRequest request) {
         // 다이어리 엔터티 빌더로 생성
@@ -45,7 +47,7 @@ public class DiaryService {
         return (int) diaryRepository.countByCoupleId(coupleId);
     }
 
-    public DiaryListResponse loadDiaryList(String userId, String coupleId, int page, int size) {
+    public DiaryListResponse loadDiaryList(String coupleId, int page, int size) {
         // 페이지 번호를 0부터 시작하도록 조정 (Spring Data JPA는 0부터 시작)
         Pageable pageable = PageRequest.of(page, size);
         
@@ -89,12 +91,15 @@ public class DiaryService {
             imageUrl = imageService.generateDownloadUrl(imageId);
         }
 
+        // 댓글 개수 조회
+        long commentCount = commentService.countByDiaryId(diary.getDiaryId());
+
         return DiarySummary.builder()
                 .diaryId(diary.getDiaryId())
                 .title(diary.getTitle())
                 .excerpt(excerpt)
                 .updatedAt(diary.getUpdatedAt())
-                .likeCount(0) // TODO: 좋아요 기능 구현 시 실제 값으로 변경
+                .commentCount((int) commentCount)
                 .imageId(imageId)
                 .imageUrl(imageUrl)
                 .imageStatus(imageStatus)
@@ -102,9 +107,9 @@ public class DiaryService {
                 .build();
     }
 
-    // 다이어리 엔터티 받아서 제목, 내용 수정
-    public DiaryResponse updateDiary(Diary diary, String title, String content) {
-        diary.update(title, content);
+    // 다이어리 엔터티 받아서 제목, 내용, 평점 수정
+    public DiaryResponse updateDiary(Diary diary, String title, String content, Double rating) {
+        diary.update(title, content, rating);
         return DiaryResponse.create(diary);
     }
 

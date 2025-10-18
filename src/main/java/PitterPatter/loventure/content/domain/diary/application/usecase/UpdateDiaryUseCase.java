@@ -65,30 +65,22 @@ public class UpdateDiaryUseCase {
         }
 
         // 다이어리 내용 수정
-        DiaryResponse response = diaryService.updateDiary(diary, request.title(), request.content());
+        diaryService.updateDiary(diary, request.title(), request.content(), request.rating());
         
         // 이미지 처리
         ImageUploadResponse imageUpload = null;
         
-        // 이미지 삭제 요청 removeImage가 true면
-        if (Boolean.TRUE.equals(request.removeImage())) {
-            if (diary.getImage() != null) {
-                log.info("Removing image from diary: diaryId={}, imageId={}", 
-                    diaryId, diary.getImage().getImageId());
-                String imageIdToDelete = diary.getImage().getImageId();
-                diary.removeImage();
-                imageService.deleteImage(imageIdToDelete);
-            }
-        }
-        // 이미지 교체 요청
-        else if (request.image() != null) {
-            // 기존 이미지 삭제 (있으면)
-            if (diary.getImage() != null) {
-                log.info("Replacing image for diary: diaryId={}, oldImageId={}", 
-                    diaryId, diary.getImage().getImageId());
-                String oldImageId = diary.getImage().getImageId();
-                diary.removeImage();
-                imageService.deleteImage(oldImageId);
+        // 이미지 메타데이터가 있는 경우 (추가 또는 변경)
+        if (request.image() != null) {
+            // 기존 이미지 삭제 (removeImage가 true이거나 기존 이미지가 있는 경우)
+            if (Boolean.TRUE.equals(request.removeImage()) || diary.getImage() != null) {
+                if (diary.getImage() != null) {
+                    log.info("Removing existing image from diary: diaryId={}, imageId={}", 
+                        diaryId, diary.getImage().getImageId());
+                    String oldImageId = diary.getImage().getImageId();
+                    diary.removeImage();
+                    imageService.deleteImage(oldImageId);
+                }
             }
             
             try {
@@ -109,6 +101,16 @@ public class UpdateDiaryUseCase {
             } catch (Exception e) {
                 log.error("Failed to create new image metadata for diary: diaryId={}", diaryId, e);
                 throw e;
+            }
+        }
+        // 이미지 메타데이터가 없고 삭제 요청만 있는 경우
+        else if (Boolean.TRUE.equals(request.removeImage())) {
+            if (diary.getImage() != null) {
+                log.info("Removing image from diary: diaryId={}, imageId={}", 
+                    diaryId, diary.getImage().getImageId());
+                String imageIdToDelete = diary.getImage().getImageId();
+                diary.removeImage();
+                imageService.deleteImage(imageIdToDelete);
             }
         }
         

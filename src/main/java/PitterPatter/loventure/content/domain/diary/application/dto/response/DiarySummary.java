@@ -16,8 +16,8 @@ public record DiarySummary(
         String excerpt,
         @Schema(description = "수정일시", example = "2025-09-05T00:00:00Z")
         LocalDateTime updatedAt,
-        @Schema(description = "좋아요 수", example = "8")
-        int likeCount,
+        @Schema(description = "댓글 개수", example = "5")
+        int commentCount,
         
         // 이미지 관련 필드
         @Schema(description = "이미지 ID (있을 경우)")

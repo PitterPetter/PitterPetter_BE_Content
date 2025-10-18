@@ -3,6 +3,8 @@ package PitterPatter.loventure.content.domain.diary.application.dto.request;
 import PitterPatter.loventure.content.domain.image.application.dto.request.ImageMetadataRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -15,6 +17,11 @@ public record UpdateDiaryRequest(
         @Schema(description = "다이어리 내용", example = "정말 즐거운 하루였습니다!")
         @Size(min = 1, max = 1000)
         @NotBlank String content,
+        
+        @Schema(description = "다이어리 평점", example = "4.5")
+        @DecimalMin(value = "0.0", message = "평점은 0.0 이상이어야 합니다")
+        @DecimalMax(value = "5.0", message = "평점은 5.0 이하여야 합니다")
+        Double rating,
         
         @Schema(description = "이미지 메타데이터 (교체 시)")
         @Valid
