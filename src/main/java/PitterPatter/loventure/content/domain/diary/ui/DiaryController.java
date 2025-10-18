@@ -68,7 +68,7 @@ public class DiaryController {
         return BaseResponse.success(loadDiaryUseCase.execute(userId, coupleId, diaryId));
     }
 
-    @PatchMapping("/{diaryId}")
+    @PutMapping("/{diaryId}")
     @Operation(summary = "다이어리 수정")
     public BaseResponse<DiaryResponse> updateDiary(
             @Parameter(hidden = true) @CurrentUser String userId,
