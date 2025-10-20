@@ -48,7 +48,7 @@ jobs:
         run: |
           cd manifests/charts/loventure
           # yq를 사용해서 content-service의 image.tag만 업데이트 (develop 브랜치용)
-          yq eval '.contentService.deployment.image.tag = "${{ steps.vars.outputs.sha_short }}"' -i values.yaml
+          yq eval '.content-service.deployment.image.tag = "${{ steps.vars.outputs.sha_short }}"' -i values.yaml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # 변경사항 확인 후 커밋
