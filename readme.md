@@ -1,4 +1,4 @@
-# PitterPetter Content Service
+ # PitterPetter Content Service
 
 PitterPetter의 콘텐츠 관리를 담당하는 마이크로서비스입니다. 커플들의 데이트 다이어리, 댓글, 이미지 관리를 제공합니다.
 
